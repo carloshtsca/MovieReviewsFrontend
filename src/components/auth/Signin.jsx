@@ -11,8 +11,8 @@ export default function Signin() {
             <Container>
                 <form className='bg-secondary rounded p-6 w-72 space-y-6'>
                     <Title children='Sign In' />
-                    <FormInput label='Email' placeholder='john@email.com' name='email' />
-                    <FormInput label='Password' placeholder='***********' name='password' />
+                    <FormInput type='email' label='Email' placeholder='john@email.com' name='email' />
+                    <FormInput type='password' label='Password' placeholder='***********' name='password' />
                     <Submit value='Sign in' />
 
                     <div className='flex justify-between'>

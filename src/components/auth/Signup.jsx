@@ -10,9 +10,9 @@ export default function Signup() {
             <Container>
                 <form className='bg-secondary rounded p-6 w-72 space-y-6'>
                     <Title children='Sign up' />
-                    <FormInput label='Name' placeholder='John Doe' name='name' />
-                    <FormInput label='Email' placeholder='john@email.com' name='email' />
-                    <FormInput label='Password' placeholder='***********' name='password' />
+                    <FormInput type='text' label='Name' placeholder='John Doe' name='name' />
+                    <FormInput type='email' label='Email' placeholder='john@email.com' name='email' />
+                    <FormInput type='password' label='Password' placeholder='***********' name='password' />
                     <Submit value='Sign up' />
 
                     <div className='flex justify-between'>
