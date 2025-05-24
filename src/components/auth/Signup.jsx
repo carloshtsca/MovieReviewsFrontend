@@ -1,18 +1,39 @@
+import React, { useState } from 'react'
 import Container from '../Container'
 import Title from '../form/Title'
 import FormInput from '../form/FormInput'
 import Submit from '../form/Submit'
 import CustomLink from '../CustomLink'
+import { commonModalClasses } from '../../utils/theme'
+import FormContainer from '../form/FormContainer';
 
 export default function Signup() {
+    const [userInfo, setUserInfo] = useState({
+        name: '',
+        email: '',
+        password: '',
+    });
+
+    const handleChange = ({ target }) => {
+        const { value, name} = target;
+        setUserInfo({...userInfo, [name]: value});
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(userInfo);
+    }
+
+    const { name, email, password } = userInfo;
+
     return (
-        <div className='fixed inset-0 bg-primary -z-10 flex justify-center items-center'>
+        <FormContainer>
             <Container>
-                <form className='bg-secondary rounded p-6 w-72 space-y-6'>
+                <form onSubmit={handleSubmit} className={`${commonModalClasses} w-72`}>
                     <Title children='Sign up' />
-                    <FormInput type='text' label='Name' placeholder='John Doe' name='name' />
-                    <FormInput type='email' label='Email' placeholder='john@email.com' name='email' />
-                    <FormInput type='password' label='Password' placeholder='***********' name='password' />
+                    <FormInput value={name} onChange={handleChange} type='text' label='Name' placeholder='John Doe' name='name' />
+                    <FormInput value={email} onChange={handleChange} type='email' label='Email' placeholder='john@email.com' name='email' />
+                    <FormInput value={password} onChange={handleChange} type='password' label='Password' placeholder='***********' name='password' />
                     <Submit value='Sign up' />
 
                     <div className='flex justify-between'>
@@ -21,6 +42,6 @@ export default function Signup() {
                     </div>
                 </form>
             </Container>
-        </div>
+        </FormContainer>
     )
 }
