@@ -12,10 +12,12 @@ import { useAuth } from './hooks';
 
 export default function App() {
     const { authInfo } = useAuth();
-    console.log(authInfo);
+    const isAdmin = authInfo.profile?.role === 'admin';
+
+    console.log(isAdmin);
 
     return (
-        <div>
+        <>
             <Navbar />
 
             <Routes>
@@ -27,6 +29,6 @@ export default function App() {
                 <Route path='/auth/reset-password' element={<ConfirmPassword />} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
-        </div>
+        </>
     );
 };
