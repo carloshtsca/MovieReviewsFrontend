@@ -3,12 +3,13 @@ import { Link, NavLink } from 'react-router-dom';
 import { AiOutlineHome } from 'react-icons/ai';
 import { BiMoviePlay } from 'react-icons/bi';
 import { FaUserNinja } from 'react-icons/fa';
+import { FiLogOut } from 'react-icons/fi';
 
 export default function Dashboard() {
     return (
-        <nav className='w-48 min-h-screen bg-secondary border-r border-gray-300'>
+        <nav className='w-48 min-h-screen bg-secondary border-r border-gray-300 flex flex-col justify-between'>
             <ul className='pl-5'>
-                <li>
+                <li className='mb-8'>
                     <Link to='/'>
                         <img src="./logo.png" alt="logo" className='h-14 p-2' />
                     </Link>
@@ -33,6 +34,14 @@ export default function Dashboard() {
                     </NavItem>
                 </li>
             </ul>
+
+            <div className='flex flex-col items-start p-5'>
+                <span className='font-semibold text-white text-xl'>Admin</span>
+                <button className='flex items-center text-dark-subtle text-sm hover:text-white transition space-x-1'>
+                    <FiLogOut />
+                    <span>Log out</span>
+                </button>
+            </div>
         </nav>
     );
 };
