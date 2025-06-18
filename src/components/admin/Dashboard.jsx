@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 
 export default function Dashboard() {
@@ -14,7 +14,7 @@ export default function Dashboard() {
                 placeholder="Search Movies..."
             />
             <button
-                onClick={() => setShowOptions(!showOptions)}
+                onClick={() => setShowOptions(true)}
                 className="flex items-center space-x-2 border-secondary 
                 hover:border-primary text-secondary hover:opacity-80 
                 transition font-semibold border-2 rounded text-lg px-3
@@ -24,18 +24,52 @@ export default function Dashboard() {
                 <AiOutlinePlus />
             </button>
 
-            <CreateOptions visible={showOptions} />
+            <CreateOptions
+                visible={showOptions}
+                onClose={() => setShowOptions(false)}
+            />
         </div>
     );
 };
 
-const CreateOptions = ({ visible }) => {
+const CreateOptions = ({ visible, onClose }) => {
+    const container = useRef();
+    const containerID = "options-container";
+
+    useEffect(() => {
+        const handleClose = (e) => {
+            if (!visible) return;
+            const { parentElement, id } = e.target;
+
+            if (parentElement.id === containerID || id === containerID) return;
+
+            // New Update
+            if (container.current) {
+                if (!container.current.classList.contains("animate-scale"))
+                    container.current.classList.add("animate-scale-reverse");
+            }
+        };
+
+        document.addEventListener("click", handleClose);
+        return () => {
+            document.removeEventListener("click", handleClose);
+        };
+    }, [visible]);
+
     if (!visible) return null;
 
     return (
-        <div className="absolute animate-scale right-0 top-12 flex flex-col space-y-3 p-5 dark:bg-secondary bg-white drop-shadow-lg rounded">
-            <Option>Add Movie</Option>
-            <Option>Add Actor</Option>
+        <div
+            id={containerID}
+            ref={container}
+            className="absolute right-0 top-12 flex flex-col space-y-3 p-5 dark:bg-secondary bg-white drop-shadow-lg rounded animate-scale"
+            onAnimationEnd={(e) => {
+                if (e.target.classList.contains("animate-scale-reverse")) onClose();
+                e.target.classList.remove("animate-scale");
+            }}
+        >
+            <Option onClick={onClose}>Add Movie</Option>
+            <Option onClick={onClose}>Add Actor</Option>
         </div>
     );
 };
@@ -48,5 +82,5 @@ const Option = ({ children, onClick }) => {
         >
             {children}
         </button>
-    )
-}
+    );
+};

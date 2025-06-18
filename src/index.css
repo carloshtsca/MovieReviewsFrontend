@@ -38,10 +38,16 @@
   animation: scale 0.2s;
 }
 
+.animate-scale-reverse {
+  transform-origin: 0% 0%;
+  animation: scale 0.2s reverse forwards;
+}
+
 @keyframes scale {
   0% {
     transform: scaleY(0);
   }
+
   100% {
     transform: scaleY(1);
   }
