@@ -21,11 +21,27 @@ export default function Dashboard() {
                 <AiOutlinePlus />
             </button>
 
-            <div className="absolute right-0 top-12 flex flex-col space-y-3 p-5
-            dark:bg-secondary bg-white drop-shadow-lg rounded">
-                <button className="dark:text-white text-secondary hover:opacity-80 transition">Add Movie</button>
-                <button className="dark:text-white text-secondary hover:opacity-80 transition">Add Actor</button>
-            </div>
+            <CreateOptions />
         </div>
     );
 };
+
+const CreateOptions = () => {
+    return (
+        <div className="absolute right-0 top-12 flex flex-col space-y-3 p-5 dark:bg-secondary bg-white drop-shadow-lg rounded">
+            <Option>Add Movie</Option>
+            <Option>Add Actor</Option>
+        </div>
+    );
+};
+
+const Option = ({ children, onClick }) => {
+    return (
+        <button
+            onClick={onClick}
+            className="dark:text-white text-secondary hover:opacity-80 transition"
+        >
+            {children}
+        </button>
+    )
+}
