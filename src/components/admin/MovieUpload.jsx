@@ -5,14 +5,15 @@ import { useNotification } from '../../hooks';
 import { uploadTrailer } from '../../api/movie';
 
 export default function MovieUpload() {
-    const [videoSelected, setVideoSelected] = useState(true);
+    const [videoSelected, setVideoSelected] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
     const { updateNotification } = useNotification();
 
     const handleChange = async (file) => {
         const formData = new FormData();
         formData.append('video', file);
-        
-        const res = await uploadTrailer(formData);
+
+        const res = await uploadTrailer(formData, setUploadProgress);
         console.log(res);
     }
 
@@ -26,8 +27,8 @@ export default function MovieUpload() {
 
                 <UploadProgress
                     visible
-                    message='Upload progress 20%'
-                    width={20}
+                    message={`upload progress ${uploadProgress}%`}
+                    width={uploadProgress}
                 />
 
                 <TrailerSelector
