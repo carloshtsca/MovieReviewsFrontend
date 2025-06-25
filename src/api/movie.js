@@ -10,7 +10,7 @@ export const uploadTrailer = async (formData, onUploadProgress) => {
             },
             onUploadProgress: ({ loaded, total }) => {
                 if (onUploadProgress) onUploadProgress(Math.floor((loaded / total) * 100));
-            }
+            },
         });
         return data;
     } catch (error) {

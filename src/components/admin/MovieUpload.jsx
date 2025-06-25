@@ -6,6 +6,7 @@ import { uploadTrailer } from '../../api/movie';
 
 export default function MovieUpload() {
     const [videoSelected, setVideoSelected] = useState(false);
+    const [videoUploaded, setVideoUploaded] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const { updateNotification } = useNotification();
 
@@ -13,21 +14,34 @@ export default function MovieUpload() {
         const formData = new FormData();
         formData.append('video', file);
 
+        setVideoSelected(true);
+
         const res = await uploadTrailer(formData, setUploadProgress);
-        console.log(res);
+
+        if (!res.error) {
+            setVideoUploaded(true);
+        }
     }
 
     const handleTypeError = (error) => {
         updateNotification('error', error);
     }
 
+    const getUploadProgressValue = () => {
+        if (!videoUploaded && uploadProgress >= 100) {
+            return 'Processing'
+        }
+
+        return `Upload progress ${uploadProgress}%`
+    }
+
     return (
         <div className='fixed inset-0 dark:bg-white dark:bg-opacity-50 bg-primary bg-opacity-50 backdrop-blur-sm flex items-center justify-center'>
-            <div className="dark:bg-primary bg-white rounded w-[45rem] h-[40rem] overflow-auto">
+            <div className="dark:bg-primary bg-white rounded w-[45rem] h-[40rem] overflow-auto p-2">
 
                 <UploadProgress
-                    visible
-                    message={`upload progress ${uploadProgress}%`}
+                    visible={!videoUploaded && videoSelected}
+                    message={getUploadProgressValue()}
                     width={uploadProgress}
                 />
 
