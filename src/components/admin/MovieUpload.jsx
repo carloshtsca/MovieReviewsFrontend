@@ -8,19 +8,48 @@ export default function MovieUpload() {
     const [videoSelected, setVideoSelected] = useState(false);
     const [videoUploaded, setVideoUploaded] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
+
+    const [videoInfo, setVideoInfo] = useState({});
+    const [movieInfo, setMovieInfo] = useState({
+        title: '',
+        storyLine: '',
+        tags: [],
+        cast: [],
+        director: {},
+        writers: [],
+        releaseDate: '',
+        poster: null,
+        genres: [],
+        type: '',
+        language: '',
+        status: '',
+        trailer: {
+            url: '',
+            public_id: '',
+        },
+    });
+
     const { updateNotification } = useNotification();
 
-    const handleChange = async (file) => {
+    const handleUploadTrailer = async (data) => {
+        const { error, url, public_id } = await uploadTrailer(data, setUploadProgress);
+
+        if (error) return updateNotification('error', error);
+
+        setVideoUploaded(true);
+
+        setVideoInfo({ url, public_id });
+    }
+
+    console.log(videoInfo);
+
+    const handleChange = (file) => {
         const formData = new FormData();
         formData.append('video', file);
 
         setVideoSelected(true);
 
-        const res = await uploadTrailer(formData, setUploadProgress);
-
-        if (!res.error) {
-            setVideoUploaded(true);
-        }
+        handleUploadTrailer(formData);
     }
 
     const handleTypeError = (error) => {
