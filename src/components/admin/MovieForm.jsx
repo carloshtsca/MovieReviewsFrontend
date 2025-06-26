@@ -1,4 +1,5 @@
 import React from 'react'
+import TagsInput from '../TagsInput';
 
 const commonInputClasses = `w-full bg-transparent outline-none dark:border-dark-subtle
         border-light-subtle dark:focus:border-white
@@ -13,7 +14,7 @@ export default function MovieForm() {
                     <input
                         id='title'
                         type='text'
-                        className={`${commonInputClasses} border-b-2 font-semibold text-xl`}
+                        className={`${commonInputClasses} border-b-2 font-semibold text-xl dark:text-white`}
                         placeholder='Titanic'
                     />
                 </div>
@@ -22,10 +23,12 @@ export default function MovieForm() {
                     <Label htmlFor="storyLine">Story line</Label>
                     <textarea
                         id='storyLine'
-                        className={`${commonInputClasses} border-b-2 resize-none h-24`}
+                        className={`${commonInputClasses} border-b-2 resize-none h-24 dark:text-white`}
                         placeholder='Movie story line...'
                     ></textarea>
                 </div>
+
+                <TagsInput />
             </div>
             <div className='w-[30%] h-5 bg-blue-400'></div>
         </form>
