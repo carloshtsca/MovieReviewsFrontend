@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai';
 
 export default function TagsInput() {
     const [tag, setTag] = useState('');
     const [tags, setTags] = useState([]);
+
+    useEffect(() => {
+        console.log(tags);
+        console.log(tag);
+    }, [tags, tag]);
 
     const handleOnChange = ({ target }) => {
         const { value } = target;
@@ -26,6 +31,11 @@ export default function TagsInput() {
         }
     };
 
+    const removeTag = tagToRemove => {
+        const newTags = tags.filter((tag) => tag !== tagToRemove);
+        setTags([...newTags]);
+    }
+
     return (
         <div>
             <div
@@ -35,7 +45,7 @@ export default function TagsInput() {
                 items-center space-x-2'
             >
                 {tags.map((t) => (
-                    <Tag key={t}>{t}</Tag>
+                    <Tag onClick={() => removeTag(t)} key={t}>{t}</Tag>
                 ))}
                 <input
                     type="text"
@@ -53,10 +63,10 @@ const Tag = ({ children, onClick }) => {
     return (
         <span
             className='dark:bg-white bg-primary dark:text-primary text-white
-            flex items-center text-sm px-1'
+            flex items-center text-sm px-1 gap-1'
         >
             {children}
-            <button onClick={onClick}><AiOutlineClose size={12} /></button>
+            <button type='button' onClick={onClick}><AiOutlineClose size={12} /></button>
         </span>
     );
 };
