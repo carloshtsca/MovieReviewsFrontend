@@ -6,6 +6,7 @@ export default function TagsInput() {
     const [tags, setTags] = useState([]);
 
     const input = useRef();
+    const tagsInput = useRef();
 
     const handleOnChange = ({ target }) => {
         const { value } = target;
@@ -37,13 +38,36 @@ export default function TagsInput() {
         input.current.scrollIntoView();
     }, [tag]);
 
+    const handleOnFocus = () => {
+        tagsInput.current.classList.remove(
+            'dark:border-dark-subtle',
+            'border-light-subtle'
+        );
+        tagsInput.current.classList.add(
+            'dark:border-white',
+            'border-primary'
+        );
+    };
+
+    const handleOnBlur = () => {
+        tagsInput.current.classList.add(
+            'dark:border-dark-subtle',
+            'border-light-subtle'
+        );
+        tagsInput.current.classList.remove(
+            'dark:border-white',
+            'border-primary'
+        );
+    }
+
     return (
         <div>
             <div
+                ref={tagsInput}
                 onKeyDown={handleKeyDown}
                 className='border-2 bg-transparent dark:border-dark-subtle
                 border-light-subtle px-2 h-10 rounded w-full text-white flex
-                items-center space-x-2 overflow-x-auto custom-scroll-bar'
+                items-center space-x-2 overflow-x-auto custom-scroll-bar transition'
             >
                 {tags.map((t) => (
                     <Tag onClick={() => removeTag(t)} key={t}>{t}</Tag>
@@ -55,6 +79,8 @@ export default function TagsInput() {
                     placeholder='Tag one, Tag two'
                     value={tag}
                     onChange={handleOnChange}
+                    onFocus={handleOnFocus}
+                    onBlur={handleOnBlur}
                 />
             </div>
         </div>
