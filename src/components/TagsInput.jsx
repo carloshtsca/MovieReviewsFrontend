@@ -19,6 +19,11 @@ export default function TagsInput() {
             setTags([...tags, tag]);
             setTag('');
         }
+
+        if (key === 'Backspace' && !tag && tags.length) {
+            const newTags = tags.filter((_, index) => index !== tags.length - 1);
+            setTags([...newTags]);
+        }
     };
 
     return (
