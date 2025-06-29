@@ -13,7 +13,10 @@ export default function AdminNavigator() {
             <Sidebar />
 
             <div className="flex-1 p-2 max-w-screen-xl">
-                <Header />
+                <Header
+                    onAddMovieClick={() => console.log('Adding Movie')}
+                    onAddActorClick={() => console.log('Adding Actor')}
+                />
 
                 <Routes>
                     <Route path='/' element={<Dashboard />} />
