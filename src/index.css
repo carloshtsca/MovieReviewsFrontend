@@ -54,13 +54,13 @@
 }
 
 .custom-scroll-bar::-webkit-scrollbar {
-  width: 2px;
-  height: 4px;
+  width: 4px;
+  height: 3px;
 }
 
 /* Track */
 .custom-scroll-bar::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #222222;
 }
 
 /* Handle */
