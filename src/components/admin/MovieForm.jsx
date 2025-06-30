@@ -16,7 +16,7 @@ export default function MovieForm() {
                     <input
                         id='title'
                         type='text'
-                        className={`${commonInputClasses} border-b-2 font-semibold text-xl dark:text-white`}
+                        className={`${commonInputClasses} border-b-2 font-semibold text-xl`}
                         placeholder='Titanic'
                     />
                 </div>
@@ -25,14 +25,14 @@ export default function MovieForm() {
                     <Label htmlFor="storyLine">Story line</Label>
                     <textarea
                         id='storyLine'
-                        className={`${commonInputClasses} border-b-2 resize-none h-24 dark:text-white`}
+                        className={`${commonInputClasses} border-b-2 resize-none h-24`}
                         placeholder='Movie story line...'
                     ></textarea>
                 </div>
 
                 <div>
                     <Label htmlFor='tags'>Tags</Label>
-                    <TagsInput />
+                    <TagsInput name='tags' />
                 </div>
 
                 <LiveSearch />

@@ -2,4 +2,4 @@ export const commonModalClasses = "dark:bg-secondary bg-white drop-shadow-lg rou
 
 export const commonInputClasses = `w-full bg-transparent outline-none dark:border-dark-subtle
         border-light-subtle dark:focus:border-white
-        focus:border-primary transition`;
+        focus:border-primary transition dark:text-white`;
