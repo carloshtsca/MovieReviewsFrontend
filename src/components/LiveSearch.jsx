@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { commonInputClasses } from '../utils/theme';
 
 export const results = [
@@ -89,13 +89,22 @@ export default function LiveSearch() {
                 focusedIndex={focusedIndex}
                 visible={displaySearch}
                 results={results}
-                onSelect={handleSelection()}
+                onSelect={handleSelection}
             />
         </div>
     );
 };
 
-const SearchResults = ({ visible, results = [], focusedIndex, onSelect }) => {
+
+const SearchResults = ({
+    visible,
+    results = [],
+    focusedIndex,
+    onSelect,
+    renderItem,
+    resultContainerStyle,
+    selectedResultStyle
+}) => {
     const resultContainer = useRef();
 
     useEffect(() => {
@@ -112,22 +121,52 @@ const SearchResults = ({ visible, results = [], focusedIndex, onSelect }) => {
         dark:bg-secondary shadow-md p-2 max-h-64 space-y-2 mt-1
         overflow-auto custom-scroll-bar'>
             {results.map((result, index) => {
-                const { id, name, avatar} = result;
+
+                const getSelectedClass = () => {
+                    return selectedResultStyle
+                        ? selectedResultStyle
+                        : 'dark:bg-dark-subtle bg-light-subtle'
+                }
 
                 return (
-                    <div
-                        onClick={() => onSelect(result)}
+                    <ResultCard
                         ref={index === focusedIndex ? resultContainer : null}
-                        key={id}
-                        className={`${index === focusedIndex ? 'dark:bg-dark-subtle bg-light-subtle' : ''} cursor-pointer rounded overflow-hidden 
-                        dark:hover:bg-dark-subtle hover:bg-light-subtle 
-                        transition flex space-x-2`}
-                    >
-                        <img src={avatar} alt={name} className='w-16 h-16 rounded object-cover' />
-                        <p className='dark:text-white font-semibold'>{name}</p>
-                    </div>
-                );
+                        key={result.id}
+                        item={result}
+                        renderItem={(item) => (
+                            <div className='flex space-x-2'>
+                                <img src={item.avatar} alt={item.name} className='w-16 h-16 rounded object-cover' />
+                                <p className='dark:text-white font-semibold'>{item.name}</p>
+                            </div>
+                        )}
+                        resultContainerStyle={resultContainerStyle}
+                        selectedResultStyle={index === focusedIndex ? getSelectedClass() : ''}
+                        onMouseDown={() => onSelect(result)}
+                    />
+                )
             })}
         </div>
-    )
-}
+    );
+};
+
+const ResultCard = forwardRef((props, ref) => {
+    const {
+        item,
+        renderItem,
+        resultContainerStyle,
+        selectedResultStyle,
+        onMouseDown
+    } = props;
+
+    const getClasses = () => {
+        if (resultContainerStyle) return resultContainerStyle + '' + selectedResultStyle;
+        return `${selectedResultStyle} cursor-pointer rounded overflow-hidden 
+        dark:hover:bg-dark-subtle hover:bg-light-subtle transition`
+    }
+
+    return (
+        <div onMouseDown={onMouseDown} ref={ref} className={getClasses()}>
+            {renderItem(item)}
+        </div>
+    );
+});
