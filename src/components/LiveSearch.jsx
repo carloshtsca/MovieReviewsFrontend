@@ -44,12 +44,15 @@ export default function LiveSearch() {
     const [displaySearch, setDisplaySearch] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(-1);
 
+    
+
     const handleOnFocus = () => {
         if (results.length) setDisplaySearch(true);
     }
 
     const handleOnBlur = () => {
         setDisplaySearch(false);
+        setFocusedIndex(-1);
     }
 
     const handleKeyDown = ({ key }) => {
@@ -91,12 +94,10 @@ const SearchResults = ({ visible, results = [], focusedIndex }) => {
     const resultContainer = useRef();
 
     useEffect(() => {
-        if (resultContainer.current) {
-            resultContainer.current.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-            });
-        }
+        resultContainer.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center',
+        });
     }, [focusedIndex]);
 
     if (!visible) return null;
