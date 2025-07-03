@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { commonInputClasses } from '../utils/theme';
 
 export const results = [
@@ -62,7 +62,7 @@ export default function LiveSearch() {
             nextCount = (focusedIndex + 1) % results.length;
         }
         if (key === 'ArrowUp') {
-            nextCount = (focusedIndex + results.length - 1) % results.length; 
+            nextCount = (focusedIndex + results.length - 1) % results.length;
         }
 
         setFocusedIndex(nextCount);
@@ -88,6 +88,17 @@ export default function LiveSearch() {
 };
 
 const SearchResults = ({ visible, results = [], focusedIndex }) => {
+    const resultContainer = useRef();
+
+    useEffect(() => {
+        if (resultContainer.current) {
+            resultContainer.current.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+            });
+        }
+    }, [focusedIndex]);
+
     if (!visible) return null;
 
     return (
@@ -97,6 +108,7 @@ const SearchResults = ({ visible, results = [], focusedIndex }) => {
             {results.map(({ id, name, avatar }, index) => {
                 return (
                     <div
+                        ref={index === focusedIndex ? resultContainer : null}
                         key={id}
                         className={`${index === focusedIndex ? 'dark:bg-dark-subtle bg-light-subtle' : ''} cursor-pointer rounded overflow-hidden 
                         dark:hover:bg-dark-subtle hover:bg-light-subtle 
