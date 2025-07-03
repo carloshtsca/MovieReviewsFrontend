@@ -44,8 +44,6 @@ export default function LiveSearch() {
     const [displaySearch, setDisplaySearch] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(-1);
 
-    
-
     const handleOnFocus = () => {
         if (results.length) setDisplaySearch(true);
     }
@@ -53,6 +51,10 @@ export default function LiveSearch() {
     const handleOnBlur = () => {
         setDisplaySearch(false);
         setFocusedIndex(-1);
+    }
+
+    const handleSelection = (selectedItem) => {
+        console.log(selectedItem);
     }
 
     const handleKeyDown = ({ key }) => {
@@ -67,6 +69,8 @@ export default function LiveSearch() {
         if (key === 'ArrowUp') {
             nextCount = (focusedIndex + results.length - 1) % results.length;
         }
+
+        if (key === 'Enter') return handleSelection(results[focusedIndex]);
 
         setFocusedIndex(nextCount);
     }
@@ -85,12 +89,13 @@ export default function LiveSearch() {
                 focusedIndex={focusedIndex}
                 visible={displaySearch}
                 results={results}
+                onSelect={handleSelection()}
             />
         </div>
     );
 };
 
-const SearchResults = ({ visible, results = [], focusedIndex }) => {
+const SearchResults = ({ visible, results = [], focusedIndex, onSelect }) => {
     const resultContainer = useRef();
 
     useEffect(() => {
@@ -104,11 +109,14 @@ const SearchResults = ({ visible, results = [], focusedIndex }) => {
 
     return (
         <div className='absolute right-0 left-0 top-10 bg-white 
-            dark:bg-secondary shadow-md p-2 max-h-64 space-y-2 mt-1
-            overflow-auto custom-scroll-bar'>
-            {results.map(({ id, name, avatar }, index) => {
+        dark:bg-secondary shadow-md p-2 max-h-64 space-y-2 mt-1
+        overflow-auto custom-scroll-bar'>
+            {results.map((result, index) => {
+                const { id, name, avatar} = result;
+
                 return (
                     <div
+                        onClick={() => onSelect(result)}
                         ref={index === focusedIndex ? resultContainer : null}
                         key={id}
                         className={`${index === focusedIndex ? 'dark:bg-dark-subtle bg-light-subtle' : ''} cursor-pointer rounded overflow-hidden 
