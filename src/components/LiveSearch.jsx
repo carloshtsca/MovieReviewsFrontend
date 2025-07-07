@@ -100,7 +100,7 @@ const SearchResults = ({
     if (!visible) return null;
 
     return (
-        <div className='absolute right-0 left-0 top-10 bg-white 
+        <div className='absolute z-50 right-0 left-0 top-10 bg-white 
         dark:bg-secondary shadow-md p-2 max-h-64 space-y-2 mt-1
         overflow-auto custom-scroll-bar'>
             {results.map((result, index) => {
