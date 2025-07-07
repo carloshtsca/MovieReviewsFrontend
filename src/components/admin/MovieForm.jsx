@@ -83,6 +83,10 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, tags });
     }
 
+    const updateDirector = (profile) => {
+        setMovieInfo({ ...movieInfo, director: profile });
+    }
+
     const { title, storyLine, director } = movieInfo;
 
     return (
@@ -118,12 +122,17 @@ export default function MovieForm() {
                     <TagsInput name='tags' onChange={updateTags} />
                 </div>
 
-                <LiveSearch
-                    placeholder="Search profile"
-                    results={results}
-                    renderItem={renderItem}
-                    onSelect={(result) => console.log(result)}
-                />
+                <div>
+                    <Label htmlFor='director'>Director</Label>
+                    <LiveSearch
+                        name='director'
+                        value={director.name}
+                        placeholder="Search profile"
+                        results={results}
+                        renderItem={renderItem}
+                        onSelect={updateDirector}
+                    />
+                </div>
 
                 <Submit value='Upload' />
             </div>
