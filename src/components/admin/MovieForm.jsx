@@ -3,6 +3,7 @@ import TagsInput from '../TagsInput';
 import LiveSearch from '../LiveSearch';
 import { commonInputClasses } from '../../utils/theme';
 import Submit from '../form/Submit';
+import { useNotification } from '../../hooks';
 
 export const results = [
     {
@@ -60,6 +61,9 @@ const defaultMovieInfo = {
 
 export default function MovieForm() {
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
+
+    const { updateNotification } = useNotification();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(movieInfo);
@@ -85,6 +89,16 @@ export default function MovieForm() {
 
     const updateDirector = (profile) => {
         setMovieInfo({ ...movieInfo, director: profile });
+    }
+
+    const updateWriters = (profile) => {
+        const { writers } = movieInfo;
+        for (let writer of writers) {
+            if (writer.id === profile.id) {
+                return updateNotification('warning', 'This profile is already selected!');
+            }
+        }
+        setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
     }
 
     const { title, storyLine, director } = movieInfo;
@@ -131,6 +145,17 @@ export default function MovieForm() {
                         results={results}
                         renderItem={renderItem}
                         onSelect={updateDirector}
+                    />
+                </div>
+
+                <div>
+                    <Label htmlFor='writers'>Writers</Label>
+                    <LiveSearch
+                        name='writers'
+                        placeholder="Search profile"
+                        results={results}
+                        renderItem={renderItem}
+                        onSelect={updateWriters}
                     />
                 </div>
 
