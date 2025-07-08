@@ -114,7 +114,7 @@ const SearchResults = ({
                 return (
                     <ResultCard
                         ref={index === focusedIndex ? resultContainer : null}
-                        key={result.id}
+                        key={index.toString()}
                         item={result}
                         renderItem={renderItem}
                         resultContainerStyle={resultContainerStyle}
