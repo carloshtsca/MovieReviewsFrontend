@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TagsInput from '../TagsInput';
 import LiveSearch from '../LiveSearch';
 import { commonInputClasses } from '../../utils/theme';
@@ -104,6 +104,21 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
     }
 
+    const hideWritersModal = () => {
+        setShowWritersModal(false);
+    };
+
+    const displayWritersModal = () => {
+        setShowWritersModal(true);
+    };
+
+    const handleWriterRemove = (profileId) => {
+        const { writers } = movieInfo;
+        const newWriters = writers.filter(({ id }) => id !== profileId);
+        if (!newWriters.length) hideWritersModal();
+        setMovieInfo({ ...movieInfo, writers: [...newWriters] });
+    };
+
     const { title, storyLine, director, writers } = movieInfo;
 
     return (
@@ -157,13 +172,15 @@ export default function MovieForm() {
                             <LabelWithBadge badge={writers.length} htmlFor='writers'>
                                 Writers
                             </LabelWithBadge>
-                            <button
-                                onClick={() => setShowWritersModal(true)}
-                                className='dark:text-white text-primary hover:underline 
-                                transition'
-                            >
-                                View All
-                            </button>
+                            {writers.length > 0 &&
+                                <button
+                                    onClick={displayWritersModal}
+                                    className='dark:text-white text-primary hover:underline 
+                                    transition'
+                                >
+                                    View All
+                                </button>
+                            }
                         </div>
                         <LiveSearch
                             name='writers'
@@ -180,9 +197,10 @@ export default function MovieForm() {
             </form>
 
             <WritersModal
-                onClose={() => setShowWritersModal(false)}
+                onClose={hideWritersModal}
                 profiles={writers}
                 visible={showWritersModal}
+                onRemoveClick={handleWriterRemove}
             />
         </>
     );
