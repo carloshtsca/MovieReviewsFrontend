@@ -39,6 +39,7 @@ export default function CastForm({ onSubmit }) {
     }
 
     const { leadActor, profile, roleAs } = castInfo;
+    
     return (
         <div className='flex items-center space-x-2'>
             <input
@@ -47,6 +48,7 @@ export default function CastForm({ onSubmit }) {
                 className='w-4 h-4'
                 checked={leadActor}
                 onChange={handleOnChange}
+                title='Set as lead'
             />
 
             <LiveSearch

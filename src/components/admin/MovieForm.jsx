@@ -125,7 +125,7 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, writers: [...newWriters] });
     };
 
-    const { title, storyLine, director, writers } = movieInfo;
+    const { title, storyLine, director, writers, cast } = movieInfo;
 
     return (
         <>
@@ -197,8 +197,18 @@ export default function MovieForm() {
                         />
                     </div>
 
-                    <div className='space-y-2'>
-                        <LabelWithBadge htmlFor='cast'>Add Cast & Crew</LabelWithBadge>
+                    <div className='space-y-1'>
+                        <div className="flex justify-between">
+                            <LabelWithBadge badge={cast.length} htmlFor='cast'>Add Cast & Crew</LabelWithBadge>
+                            {cast.length > 0 &&
+                                <button
+                                    className='dark:text-white text-primary hover:underline 
+                                    transition'
+                                >
+                                    View All
+                                </button>
+                            }
+                        </div>
                         <CastForm onSubmit={updateCast} />
                     </div>
 
