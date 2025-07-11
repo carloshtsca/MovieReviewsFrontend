@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import LiveSearch from '../LiveSearch';
 import { commonInputClasses } from '../../utils/theme';
 import { renderItem, results } from '../admin/MovieForm';
+import { useNotification } from '../../hooks';
 
 // const cast = [{ actor: id, roleAs: '', leadActor: true }];
 
@@ -11,8 +12,10 @@ const defaultCastInfo = {
     leadActor: false,
 }
 
-export default function CastForm() {
+export default function CastForm({ onSubmit }) {
     const [castInfo, setCastInfo] = useState({ ...defaultCastInfo });
+
+    const { updateNotification } = useNotification();
 
     const handleOnChange = ({ target }) => {
         const { checked, name, value } = target;
@@ -27,7 +30,12 @@ export default function CastForm() {
     }
 
     const handleSubmit = () => {
-        console.log(castInfo);
+        const { profile, roleAs } = castInfo;
+        if (!profile.name) return updateNotification('error', 'Cast profile is missing!');
+        if (!roleAs.trim()) return updateNotification('error', 'Cast role is missing!');
+
+        onSubmit(castInfo);
+        setCastInfo({ ...defaultCastInfo });
     }
 
     const { leadActor, profile, roleAs } = castInfo;
