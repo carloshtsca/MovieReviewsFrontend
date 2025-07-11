@@ -178,15 +178,7 @@ export default function MovieForm() {
                             <LabelWithBadge badge={writers.length} htmlFor='writers'>
                                 Writers
                             </LabelWithBadge>
-                            {writers.length > 0 &&
-                                <button
-                                    onClick={displayWritersModal}
-                                    className='dark:text-white text-primary hover:underline 
-                                    transition'
-                                >
-                                    View All
-                                </button>
-                            }
+                            <ViewAllBtn onClick={displayWritersModal} visible={writers.length}>View All</ViewAllBtn>
                         </div>
                         <LiveSearch
                             name='writers'
@@ -200,14 +192,7 @@ export default function MovieForm() {
                     <div className='space-y-1'>
                         <div className="flex justify-between">
                             <LabelWithBadge badge={cast.length} htmlFor='cast'>Add Cast & Crew</LabelWithBadge>
-                            {cast.length > 0 &&
-                                <button
-                                    className='dark:text-white text-primary hover:underline 
-                                    transition'
-                                >
-                                    View All
-                                </button>
-                            }
+                            <ViewAllBtn visible={cast.length}>View All</ViewAllBtn>
                         </div>
                         <CastForm onSubmit={updateCast} />
                     </div>
@@ -240,6 +225,7 @@ const Label = ({ children, htmlFor }) => {
 
 const LabelWithBadge = ({ children, htmlFor, badge = 0 }) => {
     const renderBadge = () => {
+        if (!badge) return null;
         return (
             <span className='dark:bg-dark-subtle bg-light-subtle text-white absolute 
             top-0 right-0 translate-x-5 -translate-y-1 text-xs w-5 h-5 rounded-full flex 
@@ -255,3 +241,16 @@ const LabelWithBadge = ({ children, htmlFor, badge = 0 }) => {
         </div>
     );
 };
+
+const ViewAllBtn = ({ visible, children, onClick }) => {
+    if (!visible) return null;
+
+    return (
+        <button
+            onClick={onClick}
+            className='dark:text-white text-primary hover:underline transition'
+        >
+            View All
+        </button>
+    )
+}
