@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import TagsInput from '../TagsInput';
 import LiveSearch from '../LiveSearch';
 import { commonInputClasses } from '../../utils/theme';
 import Submit from '../form/Submit';
 import { useNotification } from '../../hooks';
-import ModalContainer from '../modals/ModalContainer';
 import WritersModal from '../modals/WritersModal';
 import CastForm from '../form/CastForm';
 import CastModal from '../modals/CastModal';
@@ -135,6 +134,13 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, writers: [...newWriters] });
     };
 
+    const handleCastRemove = (profileId) => {
+        const { cast } = movieInfo;
+        const newCast = cast.filter(({ profile }) => profile.id !== profileId);
+        if (!newCast.length) hideCastModal();
+        setMovieInfo({ ...movieInfo, cast: [...newCast] });
+    };
+
     const { title, storyLine, director, writers, cast } = movieInfo;
 
     return (
@@ -223,7 +229,7 @@ export default function MovieForm() {
                 onClose={hideCastModal}
                 casts={cast}
                 visible={showCastModal}
-            // onRemoveClick={handleWriterRemove}
+                onRemoveClick={handleCastRemove}
             />
         </>
     );
