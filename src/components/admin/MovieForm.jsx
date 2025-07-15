@@ -145,7 +145,7 @@ export default function MovieForm() {
 
     return (
         <>
-            <form onSubmit={handleSubmit} className='flex space-x-3'>
+            <div className='flex space-x-3'>
                 <div className='w-[70%] h-5 space-y-5'>
                     <div>
                         <Label htmlFor='title'>Title</Label>
@@ -213,10 +213,10 @@ export default function MovieForm() {
                         <CastForm onSubmit={updateCast} />
                     </div>
 
-                    <Submit value='Upload' />
+                    <Submit type='button' value='Upload' onClick={handleSubmit} />
                 </div>
                 <div className='w-[30%] h-5 bg-blue-400'></div>
-            </form>
+            </div>
 
             <WritersModal
                 onClose={hideWritersModal}
@@ -270,10 +270,11 @@ const ViewAllBtn = ({ visible, children, onClick }) => {
 
     return (
         <button
+            type='button'
             onClick={onClick}
             className='dark:text-white text-primary hover:underline transition'
         >
-            View All
+            {children}
         </button>
     )
 }

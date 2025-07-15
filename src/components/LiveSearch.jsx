@@ -9,25 +9,36 @@ export default function LiveSearch({
     selectedResultStyle,
     resultContainerStyle,
     inputStyle,
-    renderItem=null,
-    onChange=null,
-    onSelect=null,
+    renderItem = null,
+    onChange = null,
+    onSelect = null,
 }) {
     const [displaySearch, setDisplaySearch] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(-1);
+    const inputRef = useRef()
 
     const handleOnFocus = () => {
         if (results.length) setDisplaySearch(true);
     }
 
-    const handleOnBlur = () => {
+    const closeSearch = () => {
         setDisplaySearch(false);
         setFocusedIndex(-1);
+        inputRef.current?.blur();
     }
 
+    const handleOnBlur = () => {
+        setTimeout(() => {
+            closeSearch();
+        }, 100);
+    };
+
     const handleSelection = (selectedItem) => {
-        onSelect(selectedItem);
-    }
+        if (selectedItem) {
+            onSelect(selectedItem);
+            closeSearch();
+        };
+    };
 
     const handleKeyDown = ({ key }) => {
         let nextCount;
@@ -42,6 +53,8 @@ export default function LiveSearch({
             nextCount = (focusedIndex + results.length - 1) % results.length;
         }
 
+        if (key === 'Escape') return closeSearch();
+
         if (key === 'Enter') return handleSelection(results[focusedIndex]);
 
         setFocusedIndex(nextCount);
@@ -54,6 +67,7 @@ export default function LiveSearch({
     return (
         <div className='relative'>
             <input
+                ref={inputRef}
                 type='text'
                 id={name}
                 name={name}
@@ -63,7 +77,7 @@ export default function LiveSearch({
                 onBlur={handleOnBlur}
                 onKeyDown={handleKeyDown}
                 value={value}
-                onChange={onChange || (() => {})}
+                onChange={onChange || (() => { })}
             />
             <SearchResults
                 focusedIndex={focusedIndex}
