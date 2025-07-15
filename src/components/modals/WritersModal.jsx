@@ -13,7 +13,7 @@ export default function WritersModal({
             <div className="space-y-2 dark:bg-primary bg-white rounded max-w-[45rem] max-h-[40rem] 
             overflow-auto p-2 custom-scroll-bar">
                 {profiles.map(({ id, name, avatar }) => {
-                    return <div key={id} className='flex space-x-3'>
+                    return <div key={id} className='flex space-x-3 dark:bg-secondary bg-white drop-shadow-md rounded'>
                         <img
                             className='w-16 h-16 aspect-square rounded object-cover'
                             src={avatar}
