@@ -141,7 +141,7 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, cast: [...newCast] });
     };
 
-    const { title, storyLine, director, writers, cast } = movieInfo;
+    const { title, storyLine, director, writers, cast, tags } = movieInfo;
 
     return (
         <>
@@ -174,7 +174,7 @@ export default function MovieForm() {
 
                     <div>
                         <Label htmlFor='tags'>Tags</Label>
-                        <TagsInput name='tags' onChange={updateTags} />
+                        <TagsInput value={tags} name='tags' onChange={updateTags} />
                     </div>
 
                     <div>
