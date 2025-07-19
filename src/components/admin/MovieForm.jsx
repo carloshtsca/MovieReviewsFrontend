@@ -8,6 +8,8 @@ import WritersModal from '../modals/WritersModal';
 import CastForm from '../form/CastForm';
 import CastModal from '../modals/CastModal';
 import PosterSelector from '../PosterSelector';
+import GenresSelector from '../GenresSelector';
+import GenresModal from '../modals/GenresModal';
 
 export const results = [
     {
@@ -76,6 +78,7 @@ export default function MovieForm() {
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
     const [showWritersModal, setShowWritersModal] = useState(false);
     const [showCastModal, setShowCastModal] = useState(false);
+    const [showGenresModal, setShowGenresModal] = useState(false);
     const [selectedPosterForUI, setSelectedPosterForUI] = useState('');
 
     const { updateNotification } = useNotification();
@@ -138,8 +141,16 @@ export default function MovieForm() {
         setShowCastModal(false);
     };
 
+    const hideGenresModal = () => {
+        setShowGenresModal(false);
+    };
+
     const displayCastModal = () => {
         setShowCastModal(true);
+    };
+
+    const displayGenresModal = () => {
+        setShowGenresModal(true);
     };
 
     const handleWriterRemove = (profileId) => {
@@ -238,13 +249,15 @@ export default function MovieForm() {
                     <Submit type='button' value='Upload' onClick={handleSubmit} />
                 </div>
 
-                <div className='w-[30%]'>
+                <div className='w-[30%] space-y-5'>
                     <PosterSelector
                         name='poster'
                         onChange={handleChange}
                         selectedPoster={selectedPosterForUI}
                         accept='image/jpg, image/jpeg, image/png'
                     />
+
+                    <GenresSelector onClick={displayGenresModal} />
                 </div>
             </div>
 
@@ -260,6 +273,11 @@ export default function MovieForm() {
                 casts={cast}
                 visible={showCastModal}
                 onRemoveClick={handleCastRemove}
+            />
+
+            <GenresModal
+                visible={showGenresModal}
+                onClose={hideGenresModal}
             />
         </>
     );
