@@ -213,6 +213,13 @@ export default function MovieForm() {
                         <CastForm onSubmit={updateCast} />
                     </div>
 
+                    <input
+                        type='date'
+                        className={`${commonInputClasses} border-2 rounded p-1 w-auto`}
+                        onChange={handleChange}
+                        name='releaseDate'
+                    />
+
                     <Submit type='button' value='Upload' onClick={handleSubmit} />
                 </div>
                 <div className='w-[30%] h-5 bg-blue-400'></div>
