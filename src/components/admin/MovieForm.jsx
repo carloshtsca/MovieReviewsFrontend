@@ -87,13 +87,16 @@ export default function MovieForm() {
 
     const handleChange = ({ target }) => {
         const { value, name, files } = target;
-        if (name === 'poster') {
+
+        if (name === 'poster' && files && files.length > 0) {
             const poster = files[0];
             updatePosterForUI(poster);
-            setMovieInfo({ ...movieInfo, poster });
+            setMovieInfo((prev) => ({ ...prev, poster }));
+            return; // evita sobrescrever depois
         }
-        setMovieInfo({ ...movieInfo, [name]: value });
-    }
+
+        setMovieInfo((prev) => ({ ...prev, [name]: value }));
+    };
 
     const updatePosterForUI = file => {
         const url = URL.createObjectURL(file);
