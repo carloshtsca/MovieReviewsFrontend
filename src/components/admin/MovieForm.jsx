@@ -76,6 +76,7 @@ export default function MovieForm() {
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
     const [showWritersModal, setShowWritersModal] = useState(false);
     const [showCastModal, setShowCastModal] = useState(false);
+    const [selectedPosterForUI, setSelectedPosterForUI] = useState('');
 
     const { updateNotification } = useNotification();
 
@@ -85,8 +86,18 @@ export default function MovieForm() {
     }
 
     const handleChange = ({ target }) => {
-        const { value, name } = target;
+        const { value, name, files } = target;
+        if (name === 'poster') {
+            const poster = files[0];
+            updatePosterForUI(poster);
+            setMovieInfo({ ...movieInfo, poster });
+        }
         setMovieInfo({ ...movieInfo, [name]: value });
+    }
+
+    const updatePosterForUI = file => {
+        const url = URL.createObjectURL(file);
+        setSelectedPosterForUI(url);
     }
 
     const updateTags = (tags) => {
@@ -225,7 +236,12 @@ export default function MovieForm() {
                 </div>
 
                 <div className='w-[30%]'>
-                    <PosterSelector  />
+                    <PosterSelector
+                        name='poster'
+                        onChange={handleChange}
+                        selectedPoster={selectedPosterForUI}
+                        accept='image/jpg, image/jpeg, image/png'
+                    />
                 </div>
             </div>
 
