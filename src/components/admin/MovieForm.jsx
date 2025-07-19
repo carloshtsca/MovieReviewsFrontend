@@ -7,6 +7,7 @@ import { useNotification } from '../../hooks';
 import WritersModal from '../modals/WritersModal';
 import CastForm from '../form/CastForm';
 import CastModal from '../modals/CastModal';
+import PosterSelector from '../PosterSelector';
 
 export const results = [
     {
@@ -222,7 +223,10 @@ export default function MovieForm() {
 
                     <Submit type='button' value='Upload' onClick={handleSubmit} />
                 </div>
-                <div className='w-[30%] h-5 bg-blue-400'></div>
+
+                <div className='w-[30%]'>
+                    <PosterSelector  />
+                </div>
             </div>
 
             <WritersModal
