@@ -9,16 +9,28 @@ export default function GenresModal({ visible, onClose }) {
             <div className="space-y-3">
                 {genres.map((gen, index) => {
                     return (
-                        <button
-                            className={`${index === 5 ? 'dark:bg-white dark:text-primary bg-light-subtle text-white' : 'dark:text-white text-primary'}
-                            border-2 dark:border-dark-subtle border-light-subtle  p-1 rounded mr-3`}
-                            key={gen}
-                        >
-                            {gen}
-                        </button>
+                        <Genre selected={index === 5} key={gen}>{gen}</Genre>
                     )
                 })}
             </div>
         </ModalContainer>
+    );
+};
+
+const Genre = ({ children, selected, onClick }) => {
+    const getSelectedStyle = () => {
+        return selected
+            ? 'dark:bg-white bg-light-subtle dark:text-primary text-white'
+            : 'dark:text-white text-primary'
+    };
+
+    return (
+        <button
+            onClick={onClick}
+            className={`${getSelectedStyle()} border-2 dark:border-dark-subtle 
+            border-light-subtle  p-1 rounded mr-3`}
+        >
+            {children}
+        </button>
     );
 };
