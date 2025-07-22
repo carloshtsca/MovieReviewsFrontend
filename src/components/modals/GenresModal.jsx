@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import ModalContainer from './ModalContainer';
 import genres from '../../utils/genres';
+import Submit from '../form/Submit';
 
-export default function GenresModal({ visible, onClose }) {
+export default function GenresModal({ visible, onClose, onSubmit }) {
     const [selectedGenres, setSelectedGenres] = useState([]);
 
     const handleGenresSelector = (gen) => {
@@ -13,23 +14,43 @@ export default function GenresModal({ visible, onClose }) {
         else newGenres = [...selectedGenres, gen];
 
         setSelectedGenres([...newGenres]);
+    };
+
+    const handleSubmit = () => {
+        onSubmit(selectedGenres);
+        onClose();
+    };
+
+    const handleClose = () => {
+        setSelectedGenres([]);
+        onClose();
     }
 
     return (
-        <ModalContainer visible={visible} onClose={onClose}>
-            <h1 className='dark:text-white text-primary text-2xl font-semibold text-center'>Select Genres</h1>
-            <div className="space-y-3">
-                {genres.map((gen) => {
-                    return (
-                        <Genre
-                            onClick={() => handleGenresSelector(gen)}
-                            selected={selectedGenres.includes(gen)}
-                            key={gen}
-                        >
-                            {gen}
-                        </Genre>
-                    )
-                })}
+        <ModalContainer visible={visible} onClose={handleClose}>
+            <div className="flex flex-col justify-between h-full">
+                <div>
+                    <h1 className='dark:text-white text-primary text-2xl font-semibold text-center'>
+                        Select Genres
+                    </h1>
+                    <div className="space-y-3">
+                        {genres.map((gen) => {
+                            return (
+                                <Genre
+                                    onClick={() => handleGenresSelector(gen)}
+                                    selected={selectedGenres.includes(gen)}
+                                    key={gen}
+                                >
+                                    {gen}
+                                </Genre>
+                            )
+                        })}
+                    </div>
+                </div>
+
+                <div className='w-56 self-end'>
+                    <Submit type='button' value='Select' onClick={handleSubmit} />
+                </div>
             </div>
         </ModalContainer>
     );
