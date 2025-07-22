@@ -171,7 +171,7 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, cast: [...newCast] });
     };
 
-    const { title, storyLine, director, writers, cast, tags } = movieInfo;
+    const { title, storyLine, director, writers, cast, tags, genres } = movieInfo;
 
     return (
         <>
@@ -261,7 +261,7 @@ export default function MovieForm() {
                         accept='image/jpg, image/jpeg, image/png'
                     />
 
-                    <GenresSelector onClick={displayGenresModal} />
+                    <GenresSelector badge={genres.length} onClick={displayGenresModal} />
                 </div>
             </div>
 
