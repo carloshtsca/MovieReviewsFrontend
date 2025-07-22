@@ -283,6 +283,7 @@ export default function MovieForm() {
                 onSubmit={updateGenres}
                 visible={showGenresModal}
                 onClose={hideGenresModal}
+                previousSelection={genres}
             />
         </>
     );
