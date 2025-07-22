@@ -173,12 +173,12 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, cast: [...newCast] });
     };
 
-    const { title, storyLine, director, writers, cast, tags, genres } = movieInfo;
+    const { title, storyLine, director, writers, cast, tags, genres, type, language, status } = movieInfo;
 
     return (
         <>
             <div className='flex space-x-3'>
-                <div className='w-[70%] h-5 space-y-5'>
+                <div className='w-[70%] space-y-5'>
                     <div>
                         <Label htmlFor='title'>Title</Label>
                         <input
@@ -265,9 +265,27 @@ export default function MovieForm() {
 
                     <GenresSelector badge={genres.length} onClick={displayGenresModal} />
 
-                    <Selector options={typeOptions} label='Type' />
-                    <Selector options={languageOptions} label='Language' />
-                    <Selector options={statusOptions} label='Status' />
+                    <Selector
+                        onChange={handleChange}
+                        name='type'
+                        value={type}
+                        options={typeOptions}
+                        label='Type'
+                    />
+                    <Selector
+                        onChange={handleChange}
+                        name='language'
+                        value={language}
+                        options={languageOptions}
+                        label='Language'
+                    />
+                    <Selector
+                        onChange={handleChange}
+                        name='status'
+                        value={status}
+                        options={statusOptions}
+                        label='Status'
+                    />
                 </div>
             </div>
 
