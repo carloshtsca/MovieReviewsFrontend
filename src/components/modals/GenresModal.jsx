@@ -1,15 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ModalContainer from './ModalContainer';
 import genres from '../../utils/genres';
 
 export default function GenresModal({ visible, onClose }) {
+    const [selectedGenres, setSelectedGenres] = useState([]);
+
+    const handleGenresSelector = (gen) => {
+        let newGenres = [];
+
+        if (selectedGenres.includes(gen))
+            newGenres = selectedGenres.filter(genre => genre !== gen);
+        else newGenres = [...selectedGenres, gen];
+
+        setSelectedGenres([...newGenres]);
+    }
+
     return (
         <ModalContainer visible={visible} onClose={onClose}>
             <h1 className='dark:text-white text-primary text-2xl font-semibold text-center'>Select Genres</h1>
             <div className="space-y-3">
-                {genres.map((gen, index) => {
+                {genres.map((gen) => {
                     return (
-                        <Genre selected={index === 5} key={gen}>{gen}</Genre>
+                        <Genre
+                            onClick={() => handleGenresSelector(gen)}
+                            selected={selectedGenres.includes(gen)}
+                            key={gen}
+                        >
+                            {gen}
+                        </Genre>
                     )
                 })}
             </div>
