@@ -10,6 +10,7 @@ import CastModal from '../modals/CastModal';
 import PosterSelector from '../PosterSelector';
 import GenresSelector from '../GenresSelector';
 import GenresModal from '../modals/GenresModal';
+import Selector from '../Selector';
 
 export const results = [
     {
@@ -262,6 +263,10 @@ export default function MovieForm() {
                     />
 
                     <GenresSelector badge={genres.length} onClick={displayGenresModal} />
+
+                    <Selector label='Type' />
+                    <Selector label='Language' />
+                    <Selector label='Status' />
                 </div>
             </div>
 
