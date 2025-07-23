@@ -4,8 +4,9 @@ import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { useNotification } from '../../hooks';
 import { uploadTrailer } from '../../api/movie';
 import MovieForm from './MovieForm';
+import ModalContainer from '../modals/ModalContainer';
 
-export default function MovieUpload() {
+export default function MovieUpload({ visible, onClose }) {
     const [videoSelected, setVideoSelected] = useState(false);
     const [videoUploaded, setVideoUploaded] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
@@ -66,10 +67,8 @@ export default function MovieUpload() {
     }
 
     return (
-        <div className='fixed inset-0 dark:bg-white dark:bg-opacity-50 bg-primary bg-opacity-50 backdrop-blur-sm flex items-center justify-center'>
-            <div className="dark:bg-primary bg-white rounded w-[45rem] h-[40rem] overflow-auto p-2 custom-scroll-bar">
-
-                {/* <UploadProgress
+        <ModalContainer visible={visible} onClose={onClose}>
+            {/* <UploadProgress
                     visible={!videoUploaded && videoSelected}
                     message={getUploadProgressValue()}
                     width={uploadProgress}
@@ -81,9 +80,8 @@ export default function MovieUpload() {
                     handleChange={handleChange}
                 /> */}
 
-                <MovieForm />
-            </div>
-        </div>
+            <MovieForm />
+        </ModalContainer>
     );
 };
 
