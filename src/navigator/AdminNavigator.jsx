@@ -7,9 +7,11 @@ import NotFound from '../components/NotFound';
 import Sidebar from '../components/admin/Sidebar';
 import Header from '../components/admin/Header';
 import MovieUpload from '../components/admin/MovieUpload';
+import ActorUpload from '../components/modals/ActorUpload';
 
 export default function AdminNavigator() {
     const [showMovieUploadModal, setShowMovieUploadModal] = useState(false);
+    const [showActorUploadModal, setShowActorUploadModal] = useState(false);
 
     const displayMovieUploadModal = () => {
         setShowMovieUploadModal(true);
@@ -17,6 +19,14 @@ export default function AdminNavigator() {
 
     const hideMovieUploadModal = () => {
         setShowMovieUploadModal(false);
+    }
+
+    const displayActorUploadModal = () => {
+        setShowActorUploadModal(true);
+    }
+
+    const hideActorUploadModal = () => {
+        setShowActorUploadModal(false);
     }
 
     return (
@@ -27,7 +37,7 @@ export default function AdminNavigator() {
                 <div className="flex-1 p-2 max-w-screen-xl">
                     <Header
                         onAddMovieClick={displayMovieUploadModal}
-                        onAddActorClick={displayMovieUploadModal}
+                        onAddActorClick={displayActorUploadModal}
                     />
 
                     <Routes>
@@ -38,7 +48,14 @@ export default function AdminNavigator() {
                     </Routes>
                 </div>
             </div>
-            <MovieUpload visible={showMovieUploadModal} onClose={hideMovieUploadModal} />
+            <MovieUpload
+                visible={showMovieUploadModal}
+                onClose={hideMovieUploadModal}
+            />
+            <ActorUpload
+                visible={showActorUploadModal}
+                onClose={hideActorUploadModal}
+            />
         </>
     );
 };
