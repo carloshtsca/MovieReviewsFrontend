@@ -1,5 +1,6 @@
 import React from 'react'
 import { commonInputClasses } from '../../utils/theme';
+import PosterSelector from '../PosterSelector';
 
 export default function ActorForm({ title, btnTitle }) {
     return (
@@ -18,13 +19,9 @@ export default function ActorForm({ title, btnTitle }) {
             </div>
 
             <form className="flex space-x-2">
-                <img
-                    src="https://th.bing.com/th/id/R.1fa666c9ec02d680a12318d236feb2dc?rik=i3OgDzCjiAhEfw&pid=ImgRaw&r=0"
-                    alt="actor profile"
-                    className='w-36 h-36 aspect-square object-cover rounded'
-                />
+                <PosterSelector className='w-36 h-36 aspect-square object-cover' />
 
-                <div className='flex-grow flex flex-col'>
+                <div className='flex-grow flex flex-col space-y-2'>
                     <input
                         type="text"
                         placeholder='Enter name'
