@@ -27,10 +27,18 @@ export default function ActorForm({ title, btnTitle }) {
         setActorInfo((prev) => ({ ...prev, [name]: value }));
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(actorInfo);
+    }
+
     const { name, about } = actorInfo;
 
     return (
-        <div className='dark:bg-primary bg-white p-3 w-[35rem] rounded'>
+        <form
+            onSubmit={handleSubmit}
+            className='dark:bg-primary bg-white p-3 w-[35rem] rounded'
+        >
             <div className="flex justify-between items-center mb-3">
                 <h1 className='font-semibold text-xl dark:text-white text-primary'>
                     {title}
@@ -44,12 +52,14 @@ export default function ActorForm({ title, btnTitle }) {
                 </button>
             </div>
 
-            <form className="flex space-x-2">
+            <div className="flex space-x-2">
                 <PosterSelector
                     selectedPoster={selectedAvatarForUI}
                     className='w-36 h-36 aspect-square object-cover'
                     name='avatar'
                     onChange={handleChange}
+                    accept='image/jpg, image/jpeg, image/png'
+                    label='Select Avatar'
                 />
 
                 <div className='flex-grow flex flex-col space-y-2'>
@@ -69,7 +79,7 @@ export default function ActorForm({ title, btnTitle }) {
                         className={`${commonInputClasses} border-b-2 resize-none h-full`}
                     ></textarea>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     );
 };
