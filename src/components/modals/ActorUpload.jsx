@@ -4,9 +4,10 @@ import ActorForm from '../form/ActorForm';
 import { createActor } from '../../api/actor';
 
 export default function ActorUpload({ visible, onClose }) {
-    const handleSubmit = (data) => {
+    const handleSubmit = async (data) => {
         console.log(data);
-        createActor(data);
+        const res = await createActor(data);
+        console.log(res);
     };
 
     return (
