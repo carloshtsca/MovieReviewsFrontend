@@ -58,7 +58,7 @@ const CreateOptions = ({ options, visible, onClose }) => {
             if (!visible) return;
             const { parentElement, id } = e.target;
 
-            if (parentElement.id === containerID || id === containerID) return;
+            if (parentElement?.id === containerID || id === containerID) return;
 
             if (container.current) {
                 if (!container.current.classList.contains("animate-scale"))
@@ -77,6 +77,11 @@ const CreateOptions = ({ options, visible, onClose }) => {
         e.target.classList.remove("animate-scale");
     }
 
+    const handleClick = (fn) => {
+        fn();
+        onClose();
+    } 
+
     if (!visible) return null;
 
     return (
@@ -87,7 +92,7 @@ const CreateOptions = ({ options, visible, onClose }) => {
             onAnimationEnd={handleAnimationEnd}
         >
             {options.map(({ title, onClick }) => {
-                return <Option onClick={onClick}>{title}</Option>
+                return <Option key={title} onClick={() => handleClick(onClick)}>{title}</Option>
             })}
         </div>
     );

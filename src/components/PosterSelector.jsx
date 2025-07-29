@@ -4,7 +4,7 @@ import { MdUpload } from "react-icons/md";
 const commonPosterUI = `flex justify-center items-center border border-dashed 
 rounded aspect-video dark:border-dark-subtle border-light-subtle cursor-pointer`
 
-export default function PosterSelector({ name, accept, selectedPoster, onChange }) {
+export default function PosterSelector({ name, label, accept, selectedPoster, className, onChange }) {
     const [dragzone, setDragZone] = useState(false);
     const dropzone = useRef();
 
@@ -79,20 +79,20 @@ export default function PosterSelector({ name, accept, selectedPoster, onChange 
                 {selectedPoster
                     ?
                     <img
-                        className={`${commonPosterUI} object-cover`}
+                        className={`${commonPosterUI} object-cover ${className}`}
                         src={selectedPoster}
                         alt="" />
                     :
-                    <PosterUI dragzone={dragzone} />
+                    <PosterUI dragzone={dragzone} className={className} label={label} />
                 }
             </label>
         </div>
     );
 };
 
-const PosterUI = ({ dragzone }) => {
+const PosterUI = ({ dragzone, className, label }) => {
     return (
-        <div className={`${commonPosterUI} ${dragzone ? 'bg-blue-200 animate-pulse' : ''} `}>
+        <div className={`${commonPosterUI} ${className} ${dragzone ? 'bg-blue-200 animate-pulse' : ''} `}>
             {dragzone
                 ?
                 <div className="flex flex-col-reverse items-center justify-center gap-2">
@@ -100,7 +100,7 @@ const PosterUI = ({ dragzone }) => {
                     <span><MdUpload /></span>
                 </div>
                 :
-                <span className='dark:text-dark-subtle text-light-subtle'>Select Poster</span>
+                <span className='dark:text-dark-subtle text-light-subtle'>{label}</span>
             }
         </div >
     );
