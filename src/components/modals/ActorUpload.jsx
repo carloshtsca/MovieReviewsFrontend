@@ -1,11 +1,13 @@
 import React from 'react'
 import ModalContainer from './ModalContainer';
 import ActorForm from '../form/ActorForm';
+import { createActor } from '../../api/actor';
 
 export default function ActorUpload({ visible, onClose }) {
-    const handleSubmit = data => {
+    const handleSubmit = (data) => {
         console.log(data);
-    }
+        createActor(data);
+    };
 
     return (
         <ModalContainer
