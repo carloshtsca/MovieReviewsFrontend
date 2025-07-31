@@ -20,25 +20,27 @@ export default function SearchProvider({ children }) {
 
     const { updateNotification } = useNotification();
 
-    const search = async (method, query) => {
+    const search = async (method, query, updaterFun) => {
         const { error, results } = await method(query);
         if (error) return updateNotification('error', error);
 
         if (!results.length) return setResultNotFound(true);
 
         setResults(results);
+        updaterFun([...results]);
     };
 
     const debounceFunc = debounce(search, 300);
 
-    const handleSearch = (method, query) => {
+    const handleSearch = (method, query, updaterFun) => {
         setSearching(true);
 
         if (!query.trim()) {
+            updaterFun([]);
             resetSearch();
         };
 
-        debounceFunc(method, query);
+        debounceFunc(method, query, updaterFun);
     };
 
     const resetSearch = () => {
