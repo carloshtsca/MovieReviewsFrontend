@@ -12,6 +12,7 @@ export default function LiveSearch({
     renderItem = null,
     onChange = null,
     onSelect = null,
+    visible,
 }) {
     const [displaySearch, setDisplaySearch] = useState(false);
     const [focusedIndex, setFocusedIndex] = useState(-1);
@@ -73,6 +74,11 @@ export default function LiveSearch({
     useEffect(() => {
         if (value) setDefaultValue(value);
     }, [value]);
+
+    useEffect(() => {
+        if (visible) return setDisplaySearch(visible);
+        setDisplaySearch(false);
+    }, [visible]);
 
     return (
         <div className='relative'>

@@ -3,7 +3,7 @@ import TagsInput from '../TagsInput';
 import LiveSearch from '../LiveSearch';
 import { commonInputClasses } from '../../utils/theme';
 import Submit from '../form/Submit';
-import { useNotification } from '../../hooks';
+import { useNotification, useSearch } from '../../hooks';
 import WritersModal from '../modals/WritersModal';
 import CastForm from '../form/CastForm';
 import CastModal from '../modals/CastModal';
@@ -12,6 +12,7 @@ import GenresSelector from '../GenresSelector';
 import GenresModal from '../modals/GenresModal';
 import Selector from '../Selector';
 import { languageOptions, statusOptions, typeOptions } from '../../utils/options';
+import { searchActor } from '../../api/actor';
 
 export const results = [
     {
@@ -84,6 +85,7 @@ export default function MovieForm() {
     const [selectedPosterForUI, setSelectedPosterForUI] = useState('');
 
     const { updateNotification } = useNotification();
+    const { handleSearch, searching, results, resetSearch } = useSearch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -114,6 +116,7 @@ export default function MovieForm() {
 
     const updateDirector = (profile) => {
         setMovieInfo({ ...movieInfo, director: profile });
+        resetSearch();
     }
 
     const updateCast = (castInfo) => {
@@ -173,6 +176,11 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, cast: [...newCast] });
     };
 
+    const handleProfileChange = ({ target }) => {
+        setMovieInfo({ ...movieInfo, director: { name: target.value } });
+        handleSearch(searchActor, target.value);
+    };
+
     const { title, storyLine, director, writers, cast, tags, genres, type, language, status } = movieInfo;
 
     return (
@@ -218,6 +226,8 @@ export default function MovieForm() {
                             results={results}
                             renderItem={renderItem}
                             onSelect={updateDirector}
+                            onChange={handleProfileChange}
+                            visible={results.length}
                         />
                     </div>
 

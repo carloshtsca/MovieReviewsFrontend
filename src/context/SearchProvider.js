@@ -24,7 +24,7 @@ export default function SearchProvider({ children }) {
         const { error, results } = await method(query);
         if (error) return updateNotification('error', error);
 
-        if (results.length) return setResultNotFound(true);
+        if (!results.length) return setResultNotFound(true);
 
         setResults(results);
     };
@@ -35,17 +35,21 @@ export default function SearchProvider({ children }) {
         setSearching(true);
 
         if (!query.trim()) {
-            setSearching(false);
-            setResults([]);
-            setResultNotFound(false);
+            resetSearch();
         };
 
         debounceFunc(method, query);
     };
 
+    const resetSearch = () => {
+        setSearching(false);
+        setResults([]);
+        setResultNotFound(false);
+    }
+
     return (
         <SearchContext.Provider
-            value={{ handleSearch, searching, resultNotFound, results }}
+            value={{ handleSearch, resetSearch, searching, resultNotFound, results }}
         >
             {children}
         </SearchContext.Provider>
