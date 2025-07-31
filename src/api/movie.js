@@ -1,4 +1,4 @@
-import { getToken } from "../utils/helper";
+import { catchError, getToken } from "../utils/helper";
 import client from "./client";
 
 export const uploadTrailer = async (formData, onUploadProgress) => {
@@ -15,8 +15,6 @@ export const uploadTrailer = async (formData, onUploadProgress) => {
         });
         return data;
     } catch (error) {
-        const { response } = error;
-        if (response?.data) return response.data;
-        return { error: error.response || error };
+        return catchError(error);
     }
 }
