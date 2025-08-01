@@ -71,7 +71,7 @@ export default function LiveSearch({
     };
 
     useEffect(() => {
-        if (value) setDefaultValue(value);
+        setDefaultValue(value);
     }, [value]);
 
     useEffect(() => {
