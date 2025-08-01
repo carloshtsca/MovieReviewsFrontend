@@ -27,7 +27,7 @@ export default function SearchProvider({ children }) {
         if (!results.length) return setResultNotFound(true);
 
         setResults(results);
-        updaterFun([...results]);
+        updaterFun && updaterFun([...results]);
     };
 
     const debounceFunc = debounce(search, 300);
