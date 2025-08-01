@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import TagsInput from '../TagsInput';
-import LiveSearch from '../LiveSearch';
 import { commonInputClasses } from '../../utils/theme';
 import Submit from '../form/Submit';
-import { useNotification, useSearch } from '../../hooks';
+import { useNotification } from '../../hooks';
 import WritersModal from '../modals/WritersModal';
 import CastForm from '../form/CastForm';
 import CastModal from '../modals/CastModal';
@@ -12,10 +11,9 @@ import GenresSelector from '../GenresSelector';
 import GenresModal from '../modals/GenresModal';
 import Selector from '../Selector';
 import { languageOptions, statusOptions, typeOptions } from '../../utils/options';
-import { searchActor } from '../../api/actor';
 import Label from '../Label';
 import DirectorSelector from '../DirectorSelector';
-import { renderItem } from '../../utils/helper';
+import WritersSelector from '../WritersSelector';
 
 export const results = [
     {
@@ -77,12 +75,8 @@ export default function MovieForm() {
     const [showCastModal, setShowCastModal] = useState(false);
     const [showGenresModal, setShowGenresModal] = useState(false);
     const [selectedPosterForUI, setSelectedPosterForUI] = useState('');
-    const [writerName, setWriterName] = useState('');
-    const [writersProfile, setWritersProfile] = useState([]);
-    const [directorsProfile, setDirectorsProfile] = useState([]);
 
     const { updateNotification } = useNotification();
-    const { handleSearch, searching, results, resetSearch } = useSearch();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -132,7 +126,6 @@ export default function MovieForm() {
             }
         }
         setMovieInfo({ ...movieInfo, writers: [...writers, profile] });
-        setWriterName('');
     }
 
     const hideWritersModal = () => {
@@ -173,21 +166,7 @@ export default function MovieForm() {
         setMovieInfo({ ...movieInfo, cast: [...newCast] });
     };
 
-    const handleProfileChange = ({ target }) => {
-        const { name, value } = target;
-
-        if (name === 'director') {
-            setMovieInfo({ ...movieInfo, director: { name: value } });
-            handleSearch(searchActor, value, setDirectorsProfile);
-        }
-
-        if (name === 'writers') {
-            setWriterName(value);
-            handleSearch(searchActor, value, setWritersProfile);
-        }
-    };
-
-    const { title, storyLine, director, writers, cast, tags, genres, type, language, status } = movieInfo;
+    const { title, storyLine, writers, cast, tags, genres, type, language, status } = movieInfo;
 
     return (
         <>
@@ -223,7 +202,7 @@ export default function MovieForm() {
                         <TagsInput value={tags} name='tags' onChange={updateTags} />
                     </div>
 
-                    <DirectorSelector 
+                    <DirectorSelector
                         onSelect={updateDirector}
                     />
 
@@ -234,16 +213,7 @@ export default function MovieForm() {
                             </LabelWithBadge>
                             <ViewAllBtn onClick={displayWritersModal} visible={writers.length}>View All</ViewAllBtn>
                         </div>
-                        <LiveSearch
-                            name='writers'
-                            placeholder="Search profile"
-                            results={writersProfile}
-                            renderItem={renderItem}
-                            onSelect={updateWriters}
-                            onChange={handleProfileChange}
-                            value={writerName}
-                            visible={writersProfile.length}
-                        />
+                        <WritersSelector onSelect={updateWriters} />
                     </div>
 
                     <div className='space-y-1'>
