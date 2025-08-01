@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import LiveSearch from '../LiveSearch';
 import { commonInputClasses } from '../../utils/theme';
-import { renderItem, results } from '../admin/MovieForm';
-import { useNotification } from '../../hooks';
+import { useNotification, useSearch } from '../../hooks';
+import { renderItem } from '../../utils/helper';
+import { searchActor } from '../../api/actor';
 
 // const cast = [{ actor: id, roleAs: '', leadActor: true }];
 
@@ -14,8 +15,10 @@ const defaultCastInfo = {
 
 export default function CastForm({ onSubmit }) {
     const [castInfo, setCastInfo] = useState({ ...defaultCastInfo });
+    const [profiles, setProfiles] = useState([]);
 
     const { updateNotification } = useNotification();
+    const { handleSearch, resetSearch } = useSearch();
 
     const handleOnChange = ({ target }) => {
         const { checked, name, value } = target;
@@ -35,11 +38,21 @@ export default function CastForm({ onSubmit }) {
         if (!roleAs.trim()) return updateNotification('error', 'Cast role is missing!');
 
         onSubmit(castInfo);
-        setCastInfo({ ...defaultCastInfo });
+        setCastInfo({ ...defaultCastInfo, profile: { name: '' } });
+        resetSearch();
+        setProfiles([]);
+    }
+
+    const handleProfileChange = ({ target }) => {
+        const { value } = target;
+        const { profile } = castInfo;
+        profile.name = value;
+        setCastInfo({ ...castInfo, profile });
+        handleSearch(searchActor, value, setProfiles)
     }
 
     const { leadActor, profile, roleAs } = castInfo;
-    
+
     return (
         <div className='flex items-center space-x-2'>
             <input
@@ -54,9 +67,10 @@ export default function CastForm({ onSubmit }) {
             <LiveSearch
                 placeholder='Search profile'
                 value={profile.name}
-                results={results}
+                results={profiles}
                 onSelect={handleProfileSelect}
                 renderItem={renderItem}
+                onChange={handleProfileChange}
             />
 
             <span className='dark:text-dark-subtle text-light-subtle font-semibold'>

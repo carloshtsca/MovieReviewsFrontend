@@ -71,8 +71,13 @@ export default function LiveSearch({
     };
 
     useEffect(() => {
-        if (value) setDefaultValue(value);
+        setDefaultValue(value);
     }, [value]);
+
+    useEffect(() => {
+        if (results.length) return setDisplaySearch(true);
+        setDisplaySearch(false);
+    }, [results.length]);
 
     return (
         <div className='relative'>
