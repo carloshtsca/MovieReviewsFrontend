@@ -82,21 +82,21 @@ const validateMovie = (movieInfo) => {
     if (!type.trim()) return { error: 'Type is missing!' };
 
     // Validation for genres we are checking if genres is an array or not
-    if (!Array.isArray(genres)) return { error: 'Genres are missing!' };
+    if (!genres.length) return { error: 'Genres are missing!' };
     // We are checking genres needs to field with string value
     for (let gen of genres) {
         if (!gen.trim()) return { error: 'Invalid genres!' };
     };
 
     // Validation for tags we are checking if tags is an array or not
-    if (!Array.isArray(tags)) return { error: 'Tags are missing!' };
+    if (!tags.length) return { error: 'Tags are missing!' };
     // We are checking tags needs to field with string value
     for (let tag of tags) {
         if (!tag.trim()) return { error: 'Invalid tags!' };
     };
 
     // Validation for cast we are checking if cast is an array or not
-    if (!Array.isArray(cast)) return { error: 'Cast and crew are missing!' };
+    if (!cast.length) return { error: 'Cast and crew are missing!' };
     // We are checking cast needs to field with string value
     for (let c of cast) {
         if (typeof c !== "object") return { error: 'Invalid cast!' };
