@@ -87,25 +87,32 @@ export default function MovieForm({ onSubmit }) {
         if (error) return updateNotification('error', error);
 
         // cast, tags, genres, writers
-        const { tags, genres, cast, writers } = movieInfo;
+        const { tags, genres, cast, writers, director, poster } = movieInfo;
 
         const formData = new FormData();
-        formData.append('tags', JSON.stringify(tags));
-        formData.append('genres', JSON.stringify(genres));
+        const finalMovieInfo = {
+            ...movieInfo,
+        };
+
+        finalMovieInfo.tags = JSON.stringify(tags);
+        finalMovieInfo.genres = JSON.stringify(genres);
 
         const finalCast = cast.map(c => c.id);
-        formData.append('cast', JSON.stringify(finalCast));
+        finalMovieInfo.cast = JSON.stringify(finalCast);
 
         if (writers.length) {
             const finalWriters = writers.map(w => w.id);
-            formData.append('writers', JSON.stringify(finalWriters));
+            finalMovieInfo.writers = JSON.stringify(finalWriters)
         }
 
-        if (director.id) {
-            formData.append('director', director.id);
-        }
+        if (director.id) finalMovieInfo.director = director.id;
+        if (poster) finalMovieInfo.poster = poster;
 
-        onSubmit(movieInfo)
+        for (let key in finalMovieInfo) {
+            formData.append(key, finalMovieInfo[key]);
+        };
+
+        onSubmit(formData);
     }
 
     const handleChange = ({ target }) => {
