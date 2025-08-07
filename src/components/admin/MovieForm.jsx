@@ -72,7 +72,7 @@ const defaultMovieInfo = {
     status: '',
 }
 
-export default function MovieForm({ onSubmit }) {
+export default function MovieForm({ onSubmit, busy }) {
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
     const [showWritersModal, setShowWritersModal] = useState(false);
     const [showCastModal, setShowCastModal] = useState(false);
@@ -267,7 +267,12 @@ export default function MovieForm({ onSubmit }) {
                         name='releaseDate'
                     />
 
-                    <Submit type='button' value='Upload' onClick={handleSubmit} />
+                    <Submit
+                        type='button'
+                        busy={busy}
+                        value='Upload'
+                        onClick={handleSubmit}
+                    />
                 </div>
 
                 <div className='w-[30%] space-y-5'>

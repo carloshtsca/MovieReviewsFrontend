@@ -12,6 +12,7 @@ export default function MovieUpload({ visible, onClose }) {
     const [uploadProgress, setUploadProgress] = useState(0);
 
     const [videoInfo, setVideoInfo] = useState({});
+    const [busy, setBusy] = useState(false);
 
     const { updateNotification } = useNotification();
 
@@ -50,19 +51,24 @@ export default function MovieUpload({ visible, onClose }) {
 
     const handleSubmit = async (data) => {
         if (videoInfo.url && !videoInfo.public_id) return updateNotification('error', 'Trailer is missing!');
+        setBusy(true);
         data.append('trailer', JSON.stringify(videoInfo));
-        // console.log(data);
         const res = await uploadMovie(data);
+        setBusy(false);
         console.log(res);
+
+        onClose();
     }
 
     return (
         <ModalContainer visible={visible}>
-            <UploadProgress
-                visible={!videoUploaded && videoSelected}
-                message={getUploadProgressValue()}
-                width={uploadProgress}
-            />
+            <div className="mb-5">
+                <UploadProgress
+                    visible={!videoUploaded && videoSelected}
+                    message={getUploadProgressValue()}
+                    width={uploadProgress}
+                />
+            </div>
             {!videoSelected ?
                 <>
                     <TrailerSelector
@@ -72,7 +78,7 @@ export default function MovieUpload({ visible, onClose }) {
                     />
                 </>
                 :
-                <MovieForm onSubmit={handleSubmit} />
+                <MovieForm busy={busy} onSubmit={!busy ? handleSubmit : null} />
             }
         </ModalContainer>
     );
