@@ -7,12 +7,21 @@ export default function LatestUploads() {
                 Recent Uploads
             </h1>
 
-            <MovieListItem />
+            <MovieListItem
+                movie={{
+                    poster: 'https://images.unsplash.com/photo-1735029660539-59df2bded95b?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                    title: 'Lorem ipsum dolor sit amet',
+                    status: 'public',
+                    genres: ['Action', 'Comedy'],
+                }}
+            />
         </div>
     );
 };
 
-const MovieListItem = () => {
+const MovieListItem = ({ movie, onDeleteClick, onEditClick, onOpenClick }) => {
+    const { poster, title, genres = [], status } = movie;
+
     return (
         <table className='w-full border-b'>
             <tbody>
@@ -21,8 +30,8 @@ const MovieListItem = () => {
                         <div className="w-24">
                             <img
                                 className='w-full aspect-video'
-                                src="https://images.unsplash.com/photo-1735029660539-59df2bded95b?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="poster-img"
+                                src={poster}
+                                alt={title}
                             />
                         </div>
                     </td>
@@ -30,28 +39,32 @@ const MovieListItem = () => {
                     <td className="w-full pl-5">
                         <div>
                             <h1 className='text-lg font-semibold text-primary dark:text-white'>
-                                Lorem ipsum dolor sit amet.
+                                {title}
                             </h1>
                             <div className='space-x-1'>
-                                <span className='font-semibold text-primary dark:text-white text-xs'>
-                                    Action
-                                </span>
-                                <span className='font-semibold text-primary dark:text-white text-xs'>
-                                    Drama
-                                </span>
+                                {genres.map((g, index) => {
+                                    return (
+                                        <span
+                                            key={index}
+                                            className='font-semibold text-primary dark:text-white text-xs'
+                                        >
+                                            {g}
+                                        </span>
+                                    )
+                                })}
                             </div>
                         </div>
                     </td>
 
                     <td className="px-5">
-                        <p className='text-primary dark:text-white'>public</p>
+                        <p className='text-primary dark:text-white'>{status}</p>
                     </td>
 
                     <td>
                         <div className='flex items-center space-x-3 text-primary dark:text-white text-lg'>
-                            <button type='button'><BsTrash /></button>
-                            <button type='button'><BsPencilSquare /></button>
-                            <button type='button'><BsBoxArrowUpRight /></button>
+                            <button onClick={onDeleteClick} type='button'><BsTrash /></button>
+                            <button onClick={onEditClick} type='button'><BsPencilSquare /></button>
+                            <button onClick={onOpenClick} type='button'><BsBoxArrowUpRight /></button>
                         </div>
                     </td>
                 </tr>
