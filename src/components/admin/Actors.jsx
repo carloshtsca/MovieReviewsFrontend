@@ -33,11 +33,18 @@ export default function Actors() {
 
                     {showOptions
                         ?
-                        <div className="absolute inset-0 bg-primary bg-opacity-25 backdrop-blur-sm">
-                            <button type="button">
+                        <div className="absolute inset-0 bg-primary bg-opacity-25 
+                        backdrop-blur-sm flex justify-center items-center space-x-5">
+                            <button
+                                type="button"
+                                className="p-2 rounded-full bg-white text-primary hover:opacity-80 transition"
+                            >
                                 <BsTrash />
                             </button>
-                            <button type="button">
+                            <button
+                                type="button"
+                                className="p-2 rounded-full bg-white text-primary hover:opacity-80 transition"
+                            >
                                 <BsPencilSquare />
                             </button>
                         </div>
