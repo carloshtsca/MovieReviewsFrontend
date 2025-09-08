@@ -4,12 +4,12 @@ import { getActors } from "../../api/actor";
 import { useNotification } from '../../hooks';
 
 let currentPageNo = 0;
-const limit = 20;
+const limit = 2;
 
 export default function Actors() {
     const [actors, setActors] = useState([]);
     const [reachedToEnd, setReachedToEnd] = useState(false);
-
+    
     const { updateNotification } = useNotification();
 
     const fetchActors = async (pageNo) => {
@@ -17,9 +17,11 @@ export default function Actors() {
         if (error) return updateNotification('error', error);
 
         if (!profiles.length) {
+            currentPageNo = pageNo - 1;
             return setReachedToEnd(true);
         }
 
+        setReachedToEnd(false);
         setActors([...profiles]);
     };
 
@@ -28,6 +30,12 @@ export default function Actors() {
         currentPageNo += 1;
         fetchActors(currentPageNo);
     };
+
+    const handleOnPrevClick = () => {
+        if (currentPageNo <= 0) return;
+        currentPageNo -= 1;
+        fetchActors(currentPageNo);
+    }
 
     useEffect(() => {
         fetchActors(currentPageNo);
@@ -45,6 +53,7 @@ export default function Actors() {
                 <button
                     type='button'
                     className="text-primary dark:text-white hover:underline"
+                    onClick={handleOnPrevClick}
                 >
                     Prev
                 </button>
