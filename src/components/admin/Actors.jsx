@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { getActors } from "../../api/actor";
 import { useNotification } from '../../hooks';
+import NextAndPrevButton from "../NextAndPrevButton";
 
 let currentPageNo = 0;
 const limit = 4;
@@ -49,22 +50,11 @@ export default function Actors() {
                 })}
             </div>
 
-            <div className="flex justify-end items-center space-x-3 mt-5">
-                <button
-                    type='button'
-                    className="text-primary dark:text-white hover:underline"
-                    onClick={handleOnPrevClick}
-                >
-                    Prev
-                </button>
-                <button
-                    type='button'
-                    className="text-primary dark:text-white hover:underline"
-                    onClick={handleOnNextClick}
-                >
-                    Next
-                </button>
-            </div>
+            <NextAndPrevButton
+                className="mt-5"
+                onNextClick={handleOnNextClick}
+                onPrevClick={handleOnPrevClick}
+            />
         </div>
     );
 };
