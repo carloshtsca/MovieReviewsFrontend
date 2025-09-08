@@ -3,21 +3,26 @@ import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { getActors } from "../../api/actor";
 import { useNotification } from '../../hooks';
 
-let pageNo = 0;
+let currentPageNo = 0;
 const limit = 20;
 
 export default function Actors() {
     const [actors, setActors] = useState([]);
     const { updateNotification } = useNotification();
 
-    const fetchActors = async () => {
+    const fetchActors = async (pageNo) => {
         const { profiles, error } = await getActors(pageNo, limit);
         if (error) return updateNotification('error', error);
         setActors([...profiles]);
     };
 
+    const handleOnNextClick = () => {
+        currentPageNo += 1;
+        fetchActors(currentPageNo);
+    }
+
     useEffect(() => {
-        fetchActors();
+        fetchActors(currentPageNo);
     }, []);
 
     return (
@@ -38,6 +43,7 @@ export default function Actors() {
                 <button
                     type='button'
                     className="text-primary dark:text-white hover:underline"
+                    onClick={handleOnNextClick}
                 >
                     Next
                 </button>
