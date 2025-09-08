@@ -8,18 +8,26 @@ const limit = 20;
 
 export default function Actors() {
     const [actors, setActors] = useState([]);
+    const [reachedToEnd, setReachedToEnd] = useState(false);
+
     const { updateNotification } = useNotification();
 
     const fetchActors = async (pageNo) => {
         const { profiles, error } = await getActors(pageNo, limit);
         if (error) return updateNotification('error', error);
+
+        if (!profiles.length) {
+            return setReachedToEnd(true);
+        }
+
         setActors([...profiles]);
     };
 
     const handleOnNextClick = () => {
+        if (reachedToEnd) return;
         currentPageNo += 1;
         fetchActors(currentPageNo);
-    }
+    };
 
     useEffect(() => {
         fetchActors(currentPageNo);
