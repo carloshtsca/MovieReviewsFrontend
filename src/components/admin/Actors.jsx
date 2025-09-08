@@ -4,12 +4,12 @@ import { getActors } from "../../api/actor";
 import { useNotification } from '../../hooks';
 
 let currentPageNo = 0;
-const limit = 2;
+const limit = 4;
 
 export default function Actors() {
     const [actors, setActors] = useState([]);
     const [reachedToEnd, setReachedToEnd] = useState(false);
-    
+
     const { updateNotification } = useNotification();
 
     const fetchActors = async (pageNo) => {
@@ -71,6 +71,7 @@ export default function Actors() {
 
 const ActorProfile = ({ profile }) => {
     const [showOptions, setShowOptions] = useState(false);
+    const acceptedNameLength = 15;
 
     const handleOnMouseEnter = () => {
         setShowOptions(true);
@@ -81,6 +82,12 @@ const ActorProfile = ({ profile }) => {
     };
 
     if (!profile) return null;
+
+    const getName = (name) => {
+        if (name.length <= acceptedNameLength) return name;
+        return name.substring(0, acceptedNameLength) + '...';
+    };
+
     const { name, avatar, about = '' } = profile;
 
     return (
@@ -97,7 +104,9 @@ const ActorProfile = ({ profile }) => {
                 />
 
                 <div className="px-2">
-                    <h1 className="text-xl text-primary dark:text-white font-semibold">{name}</h1>
+                    <h1 className="text-xl text-primary dark:text-white font-semibold whitespace-nowrap">
+                        {getName(name)}
+                    </h1>
                     <p className="text-primary dark:text-white">{about.substring(0, 50)}</p>
                 </div>
 
