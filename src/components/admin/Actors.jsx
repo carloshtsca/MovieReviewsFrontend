@@ -1,7 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
+import { getActors } from "../../api/actor";
 
 export default function Actors() {
+    const fetchActors = async () => {
+        const res = await getActors(0, 5);
+        console.log(res);
+    };
+
+    useEffect(() => {
+        fetchActors();        
+    }, []);
+
     return (
         <div className="grid grid-cols-4 gap-3 my-5">
             <ActorProfile
