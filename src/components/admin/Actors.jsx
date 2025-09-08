@@ -1,47 +1,30 @@
 import { useEffect, useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { getActors } from "../../api/actor";
+import { useNotification } from '../../hooks';
+
+let pageNo = 0;
+const limit = 20;
 
 export default function Actors() {
+    const [actors, setActors] = useState([]);
+    const { updateNotification } = useNotification();
+
     const fetchActors = async () => {
-        const res = await getActors(0, 5);
-        console.log(res);
+        const { profiles, error } = await getActors(pageNo, limit);
+        if (error) return updateNotification('error', error);
+        setActors([...profiles]);
     };
 
     useEffect(() => {
-        fetchActors();        
+        fetchActors();
     }, []);
 
     return (
-        <div className="grid grid-cols-4 gap-3 my-5">
-            <ActorProfile
-                profile={{
-                    name: 'John Doe',
-                    avatar: "https://images.unsplash.com/photo-1735029660539-59df2bded95b?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    about: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas exercitationem ut ad officiis sit illum voluptates! Vel temporibus dicta, fuga animi dolorem id illum itaque, distinctio maxime odio obcaecati neque.'
-                }}
-            />
-            <ActorProfile
-                profile={{
-                    name: 'John Doe',
-                    avatar: "https://images.unsplash.com/photo-1735029660539-59df2bded95b?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    about: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas exercitationem ut ad officiis sit illum voluptates! Vel temporibus dicta, fuga animi dolorem id illum itaque, distinctio maxime odio obcaecati neque.'
-                }}
-            />
-            <ActorProfile
-                profile={{
-                    name: 'John Doe',
-                    avatar: "https://images.unsplash.com/photo-1735029660539-59df2bded95b?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    about: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas exercitationem ut ad officiis sit illum voluptates! Vel temporibus dicta, fuga animi dolorem id illum itaque, distinctio maxime odio obcaecati neque.'
-                }}
-            />
-            <ActorProfile
-                profile={{
-                    name: 'John Doe',
-                    avatar: "https://images.unsplash.com/photo-1735029660539-59df2bded95b?q=80&w=300&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                    about: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas exercitationem ut ad officiis sit illum voluptates! Vel temporibus dicta, fuga animi dolorem id illum itaque, distinctio maxime odio obcaecati neque.'
-                }}
-            />
+        <div className="grid grid-cols-4 gap-5 my-5">
+            {actors.map(actor => {
+                return <ActorProfile key={actor.id} profile={actor} />
+            })}
         </div>
     );
 };
