@@ -21,10 +21,27 @@ export default function Actors() {
     }, []);
 
     return (
-        <div className="grid grid-cols-4 gap-5 my-5">
-            {actors.map(actor => {
-                return <ActorProfile key={actor.id} profile={actor} />
-            })}
+        <div className="p-5">
+            <div className="grid grid-cols-4 gap-5">
+                {actors.map(actor => {
+                    return <ActorProfile key={actor.id} profile={actor} />
+                })}
+            </div>
+
+            <div className="flex justify-end items-center space-x-3 mt-5">
+                <button
+                    type='button'
+                    className="text-primary dark:text-white hover:underline"
+                >
+                    Prev
+                </button>
+                <button
+                    type='button'
+                    className="text-primary dark:text-white hover:underline"
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 };
