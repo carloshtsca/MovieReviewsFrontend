@@ -34,6 +34,8 @@ export default function Movies() {
 
     const handleOnPrevClick = () => {
         if (currentPageNo <= 0) return;
+        if (reachedToEnd) setReachedToEnd(false);
+
         currentPageNo -= 1;
         fetchMovies(currentPageNo);
     };
