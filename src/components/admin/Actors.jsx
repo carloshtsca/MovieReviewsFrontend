@@ -5,7 +5,7 @@ import { useNotification } from '../../hooks';
 import NextAndPrevButton from "../NextAndPrevButton";
 
 let currentPageNo = 0;
-const limit = 4;
+const limit = 20;
 
 export default function Actors() {
     const [actors, setActors] = useState([]);
