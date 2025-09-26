@@ -4,7 +4,7 @@ import ActorForm from '../form/ActorForm';
 import { createActor } from '../../api/actor';
 import { useNotification } from '../../hooks';
 
-export default function UpdateActor({ visible, onClose }) {
+export default function UpdateActor({ visible, onClose, initialState }) {
     const [busy, setBusy] = useState(false);
     const { updateNotification } = useNotification();
 
@@ -28,6 +28,7 @@ export default function UpdateActor({ visible, onClose }) {
                 title='Update Actor'
                 btnTitle='Update'
                 busy={busy}
+                initialState={initialState}
             />
         </ModalContainer>
     );

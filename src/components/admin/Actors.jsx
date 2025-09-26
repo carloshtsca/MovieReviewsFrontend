@@ -13,6 +13,7 @@ export default function Actors() {
     const [reachedToEnd, setReachedToEnd] = useState(false);
 
     const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [selectedProfile, setSelectedProfile] = useState(null);
 
     const { updateNotification } = useNotification();
 
@@ -43,7 +44,7 @@ export default function Actors() {
 
     const handleOnEditClick = (profile) => {
         setShowUpdateModal(true);
-        console.log(profile);
+        setSelectedProfile(profile);
     };
 
     const hideUpdateModal = () => {
@@ -76,7 +77,11 @@ export default function Actors() {
                 />
             </div>
 
-            <UpdateActor visible={showUpdateModal} onClose={hideUpdateModal} />
+            <UpdateActor
+                visible={showUpdateModal}
+                onClose={hideUpdateModal}
+                initialState={selectedProfile}
+            />
         </>
     );
 };
