@@ -3,6 +3,7 @@ import { BsPencilSquare, BsTrash } from "react-icons/bs";
 import { getActors } from "../../api/actor";
 import { useNotification } from '../../hooks';
 import NextAndPrevButton from "../NextAndPrevButton";
+import UpdateActor from "../modals/UpdateActor";
 
 let currentPageNo = 0;
 const limit = 20;
@@ -10,6 +11,8 @@ const limit = 20;
 export default function Actors() {
     const [actors, setActors] = useState([]);
     const [reachedToEnd, setReachedToEnd] = useState(false);
+
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
 
     const { updateNotification } = useNotification();
 
@@ -39,33 +42,42 @@ export default function Actors() {
     };
 
     const handleOnEditClick = (profile) => {
+        setShowUpdateModal(true);
         console.log(profile);
-    }
+    };
+
+    const hideUpdateModal = () => {
+        setShowUpdateModal(false);
+    };
 
     useEffect(() => {
         fetchActors(currentPageNo);
     }, []);
 
     return (
-        <div className="p-5">
-            <div className="grid grid-cols-4 gap-5">
-                {actors.map(actor => {
-                    return (
-                        <ActorProfile
-                            key={actor.id}
-                            profile={actor}
-                            onEditClick={() => handleOnEditClick(actor)}
-                        />
-                    );
-                })}
+        <>
+            <div className="p-5">
+                <div className="grid grid-cols-4 gap-5">
+                    {actors.map(actor => {
+                        return (
+                            <ActorProfile
+                                key={actor.id}
+                                profile={actor}
+                                onEditClick={() => handleOnEditClick(actor)}
+                            />
+                        );
+                    })}
+                </div>
+
+                <NextAndPrevButton
+                    className="mt-5"
+                    onNextClick={handleOnNextClick}
+                    onPrevClick={handleOnPrevClick}
+                />
             </div>
 
-            <NextAndPrevButton
-                className="mt-5"
-                onNextClick={handleOnNextClick}
-                onPrevClick={handleOnPrevClick}
-            />
-        </div>
+            <UpdateActor visible={showUpdateModal} onClose={hideUpdateModal} />
+        </>
     );
 };
 
