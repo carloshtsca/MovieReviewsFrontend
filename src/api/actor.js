@@ -16,6 +16,21 @@ export const createActor = async (formData) => {
     }
 }
 
+export const updateActor = async (id, formData) => {
+    const token = getToken();
+    try {
+        const { data } = await client.post(`/actor/update/` + id, formData, {
+            headers: {
+                authorization: 'Bearer ' + token,
+                'content-type': 'multipart/form-data',
+            },
+        });
+        return data;
+    } catch (error) {
+        return catchError(error);
+    }
+}
+
 export const searchActor = async (query) => {
     const token = getToken();
     try {
