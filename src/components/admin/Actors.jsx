@@ -4,6 +4,7 @@ import { getActors } from "../../api/actor";
 import { useNotification } from '../../hooks';
 import NextAndPrevButton from "../NextAndPrevButton";
 import UpdateActor from "../modals/UpdateActor";
+import AppSearchForm from "../form/AppSearchForm";
 
 let currentPageNo = 0;
 const limit = 20;
@@ -70,6 +71,10 @@ export default function Actors() {
     return (
         <>
             <div className="p-5">
+                <div className="flex justify-end mb-5">
+                    <AppSearchForm placeholder='Search Actors...' />
+                </div>
+
                 <div className="grid grid-cols-4 gap-5">
                     {actors.map(actor => {
                         return (
