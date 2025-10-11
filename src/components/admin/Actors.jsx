@@ -52,6 +52,11 @@ export default function Actors() {
         setShowUpdateModal(false);
     };
 
+    const handleOnSearchSubmit = (value) => {
+        console.log(value);
+        setShowUpdateModal(false);
+    };
+
     const handleOnActorUpdate = (profile) => {
         const updatedActors = actors.map(actor => {
             if (profile.id === actor.id) {
@@ -72,7 +77,10 @@ export default function Actors() {
         <>
             <div className="p-5">
                 <div className="flex justify-end mb-5">
-                    <AppSearchForm placeholder='Search Actors...' />
+                    <AppSearchForm
+                        placeholder='Search Actors...'
+                        onSubmit={handleOnSearchSubmit}
+                    />
                 </div>
 
                 <div className="grid grid-cols-4 gap-5">
