@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
-import { getActors } from "../../api/actor";
-import { useNotification } from '../../hooks';
+import { getActors, searchActor } from "../../api/actor";
+import { useNotification, useSearch } from '../../hooks';
 import NextAndPrevButton from "../NextAndPrevButton";
 import UpdateActor from "../modals/UpdateActor";
 import AppSearchForm from "../form/AppSearchForm";
@@ -11,12 +11,15 @@ const limit = 20;
 
 export default function Actors() {
     const [actors, setActors] = useState([]);
+    const [results, setResults] = useState([]);
+
     const [reachedToEnd, setReachedToEnd] = useState(false);
 
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [selectedProfile, setSelectedProfile] = useState(null);
 
     const { updateNotification } = useNotification();
+    const { handleSearch } = useSearch();
 
     const fetchActors = async (pageNo) => {
         const { profiles, error } = await getActors(pageNo, limit);
@@ -53,8 +56,7 @@ export default function Actors() {
     };
 
     const handleOnSearchSubmit = (value) => {
-        console.log(value);
-        setShowUpdateModal(false);
+        handleSearch(searchActor, value, setResults);
     };
 
     const handleOnActorUpdate = (profile) => {
@@ -84,22 +86,27 @@ export default function Actors() {
                 </div>
 
                 <div className="grid grid-cols-4 gap-5">
-                    {actors.map(actor => {
-                        return (
-                            <ActorProfile
-                                key={actor.id}
-                                profile={actor}
-                                onEditClick={() => handleOnEditClick(actor)}
-                            />
-                        );
-                    })}
+
+                    {results.length ? results.map((actor) => (
+                        <ActorProfile
+                            key={actor.id}
+                            profile={actor}
+                            onEditClick={() => handleOnEditClick(actor)}
+                        />
+                    )) : actors.map((actor) => (
+                        <ActorProfile
+                            key={actor.id}
+                            profile={actor}
+                            onEditClick={() => handleOnEditClick(actor)}
+                        />
+                    ))}
                 </div>
 
-                <NextAndPrevButton
+                {!results.length ? <NextAndPrevButton
                     className="mt-5"
                     onNextClick={handleOnNextClick}
                     onPrevClick={handleOnPrevClick}
-                />
+                /> : null}
             </div>
 
             <UpdateActor
