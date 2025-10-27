@@ -5,6 +5,7 @@ import { useNotification, useSearch } from '../../hooks';
 import NextAndPrevButton from "../NextAndPrevButton";
 import UpdateActor from "../modals/UpdateActor";
 import AppSearchForm from "../form/AppSearchForm";
+import NotFoundText from "../NotFoundText";
 
 let currentPageNo = 0;
 const limit = 20;
@@ -91,27 +92,25 @@ export default function Actors() {
                         onReset={handleSearchFormReset}
                     />
                 </div>
+                
+                <NotFoundText text='Record not found' visible={resultNotFound} />
 
-                {resultNotFound ? (
-                    <resultNotFound text='Record not found' visible={resultNotFound} />
-                ) : (
-                    <div className="grid grid-cols-4 gap-5">
-                        {results.length || resultNotFound ?
-                            results.map((actor) => (
-                                <ActorProfile
-                                    key={actor.id}
-                                    profile={actor}
-                                    onEditClick={() => handleOnEditClick(actor)}
-                                />
-                            )) : actors.map((actor) => (
-                                <ActorProfile
-                                    key={actor.id}
-                                    profile={actor}
-                                    onEditClick={() => handleOnEditClick(actor)}
-                                />
-                            ))}
-                    </div>
-                )}
+                <div className="grid grid-cols-4 gap-5">
+                    {results.length || resultNotFound ?
+                        results.map((actor) => (
+                            <ActorProfile
+                                key={actor.id}
+                                profile={actor}
+                                onEditClick={() => handleOnEditClick(actor)}
+                            />
+                        )) : actors.map((actor) => (
+                            <ActorProfile
+                                key={actor.id}
+                                profile={actor}
+                                onEditClick={() => handleOnEditClick(actor)}
+                            />
+                        ))}
+                </div>
 
                 {!results.length && !resultNotFound ?
                     <NextAndPrevButton
