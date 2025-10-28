@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
-import { getActors, searchActor } from "../../api/actor";
+import { deleteActor, getActors, searchActor } from "../../api/actor";
 import { useNotification, useSearch } from '../../hooks';
 import NextAndPrevButton from "../NextAndPrevButton";
 import UpdateActor from "../modals/UpdateActor";
@@ -24,6 +24,8 @@ export default function Actors() {
     const { handleSearch, resetSearch, resultNotFound } = useSearch();
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+    const [busy, setBusy] = useState(false);
 
     const fetchActors = async (pageNo) => {
         const { profiles, error } = await getActors(pageNo, limit);
@@ -81,9 +83,23 @@ export default function Actors() {
     };
 
     const handleOnDeleteClick = (profile) => {
-        console.log(profile);
+        setSelectedProfile(profile);
         setShowConfirmModal(true);
     };
+
+    const handleOnDeleteConfirm = async () => {
+        setBusy(true);
+        const { error, message } = await deleteActor(selectedProfile.id);
+        setBusy(false);
+    
+        if (error) return updateNotification('error', error);
+
+        updateNotification('success', message);
+        hideConfirmModal();
+        fetchActors(currentPageNo);
+    };
+
+    const hideConfirmModal = () => setShowConfirmModal(false);
 
     useEffect(() => {
         fetchActors(currentPageNo);
@@ -100,7 +116,7 @@ export default function Actors() {
                         onReset={handleSearchFormReset}
                     />
                 </div>
-                
+
                 <NotFoundText text='Record not found' visible={resultNotFound} />
 
                 <div className="grid grid-cols-4 gap-5">
@@ -133,7 +149,14 @@ export default function Actors() {
                 }
             </div>
 
-            <ConfirmModal visible={showConfirmModal} title='Are you sure?' subtitle='This action will remove this profile permanently!' busy />
+            <ConfirmModal
+                visible={showConfirmModal}
+                title='Are you sure?'
+                subtitle='This action will remove this profile permanently!'
+                busy={busy}
+                onConfirm={handleOnDeleteConfirm}
+                onCancel={hideConfirmModal}
+            />
 
             <UpdateActor
                 visible={showUpdateModal}
