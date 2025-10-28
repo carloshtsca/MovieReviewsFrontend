@@ -6,6 +6,7 @@ import NextAndPrevButton from "../NextAndPrevButton";
 import UpdateActor from "../modals/UpdateActor";
 import AppSearchForm from "../form/AppSearchForm";
 import NotFoundText from "../NotFoundText";
+import ConfirmModal from "../modals/ConfirmModal";
 
 let currentPageNo = 0;
 const limit = 20;
@@ -21,6 +22,8 @@ export default function Actors() {
 
     const { updateNotification } = useNotification();
     const { handleSearch, resetSearch, resultNotFound } = useSearch();
+
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const fetchActors = async (pageNo) => {
         const { profiles, error } = await getActors(pageNo, limit);
@@ -77,6 +80,11 @@ export default function Actors() {
         setActors([...updatedActors]);
     };
 
+    const handleOnDeleteClick = (profile) => {
+        console.log(profile);
+        setShowConfirmModal(true);
+    };
+
     useEffect(() => {
         fetchActors(currentPageNo);
     }, []);
@@ -102,12 +110,14 @@ export default function Actors() {
                                 key={actor.id}
                                 profile={actor}
                                 onEditClick={() => handleOnEditClick(actor)}
+                                onDeleteClick={() => handleOnDeleteClick(actor)}
                             />
                         )) : actors.map((actor) => (
                             <ActorProfile
                                 key={actor.id}
                                 profile={actor}
                                 onEditClick={() => handleOnEditClick(actor)}
+                                onDeleteClick={() => handleOnDeleteClick(actor)}
                             />
                         ))}
                 </div>
@@ -123,6 +133,8 @@ export default function Actors() {
                 }
             </div>
 
+            <ConfirmModal visible={showConfirmModal} title='Are you sure?' subtitle='This action will remove this profile permanently!' busy />
+
             <UpdateActor
                 visible={showUpdateModal}
                 onClose={hideUpdateModal}
@@ -133,7 +145,7 @@ export default function Actors() {
     );
 };
 
-const ActorProfile = ({ profile, onEditClick }) => {
+const ActorProfile = ({ profile, onEditClick, onDeleteClick }) => {
     const [showOptions, setShowOptions] = useState(false);
     const acceptedNameLength = 15;
 
@@ -176,7 +188,7 @@ const ActorProfile = ({ profile, onEditClick }) => {
                     </p>
                 </div>
 
-                <Options onEditClick={onEditClick} visible={showOptions} />
+                <Options onEditClick={onEditClick} onDeleteClick={onDeleteClick} visible={showOptions} />
             </div>
         </div>
     );
