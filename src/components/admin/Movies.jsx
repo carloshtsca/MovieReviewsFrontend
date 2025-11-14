@@ -3,6 +3,7 @@ import MovieListItem from '../MovieListItem';
 import { useNotification } from '../../hooks';
 import { getMovies } from '../../api/movie';
 import NextAndPrevButton from '../NextAndPrevButton';
+import UpdateMovie from '../modals/UpdateMovie';
 
 const limit = 1;
 let currentPageNo = 0;
@@ -10,6 +11,8 @@ let currentPageNo = 0;
 export default function Movies() {
     const [movies, setMovies] = useState([]);
     const [reachedToEnd, setReachedToEnd] = useState(false);
+
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
 
     const { updateNotification } = useNotification();
 
@@ -21,7 +24,7 @@ export default function Movies() {
             currentPageNo = pageNo - 1;
             return setReachedToEnd(true);
         };
-        
+
         setReachedToEnd(false);
         setMovies([...movies]);
     };
@@ -40,21 +43,36 @@ export default function Movies() {
         fetchMovies(currentPageNo);
     };
 
+    const handleOnEditClick = (movie) => {
+        console.log(movie);
+        setShowUpdateModal(true);
+    };
+
     useEffect(() => {
         fetchMovies();
     }, []);
 
     return (
-        <div className='space-y-3 p-5'>
-            {movies.map(movie => {
-                return <MovieListItem key={movie.id} movie={movie} />
-            })}
+        <>
+            <div className='space-y-3 p-5'>
+                {movies.map(movie => {
+                    return (
+                        <MovieListItem
+                            key={movie.id}
+                            movie={movie}
+                            onEditClick={() => handleOnEditClick(movie)}
+                        />
+                    )
+                })}
 
-            <NextAndPrevButton
-                className="mt-5"
-                onNextClick={handleOnNextClick}
-                onPrevClick={handleOnPrevClick}
-            />
-        </div>
+                <NextAndPrevButton
+                    className="mt-5"
+                    onNextClick={handleOnNextClick}
+                    onPrevClick={handleOnPrevClick}
+                />
+            </div>
+
+            <UpdateMovie visible={showUpdateModal} />
+        </>
     );
 };
