@@ -72,7 +72,7 @@ const defaultMovieInfo = {
     status: '',
 }
 
-export default function MovieForm({ onSubmit, initialState, busy }) {
+export default function MovieForm({ onSubmit, btnTitle, initialState, busy }) {
     const [movieInfo, setMovieInfo] = useState({ ...defaultMovieInfo });
     const [showWritersModal, setShowWritersModal] = useState(false);
     const [showCastModal, setShowCastModal] = useState(false);
@@ -278,7 +278,7 @@ export default function MovieForm({ onSubmit, initialState, busy }) {
                     <Submit
                         type='button'
                         busy={busy}
-                        value='Upload'
+                        value={btnTitle}
                         onClick={handleSubmit}
                     />
                 </div>
