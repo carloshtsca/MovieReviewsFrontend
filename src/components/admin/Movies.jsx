@@ -4,6 +4,7 @@ import { useNotification } from '../../hooks';
 import { getMovies, getMovieForUpdate } from '../../api/movie';
 import NextAndPrevButton from '../NextAndPrevButton';
 import UpdateMovie from '../modals/UpdateMovie';
+import ConfirmModal from '../modals/ConfirmModal';
 
 const limit = 1;
 let currentPageNo = 0;
@@ -12,6 +13,7 @@ export default function Movies() {
     const [movies, setMovies] = useState([]);
     const [reachedToEnd, setReachedToEnd] = useState(false);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState(null);
 
     const { updateNotification } = useNotification();
@@ -50,6 +52,15 @@ export default function Movies() {
         setShowUpdateModal(true);
     };
 
+    const handleOnDeleteClick = async (movie) => {
+        setSelectedMovie(movie);
+        setShowConfirmModal(true);
+    };
+
+    const handleOnDeleteConfirm = async () => {
+        
+    };
+
     const handleOnUpdate = (movie) => {
         const updatedMovies = movies.map(m => {
             if (m.id === movie.id) return movie;
@@ -60,6 +71,7 @@ export default function Movies() {
     };
 
     const hideUpdateForm = () => setShowUpdateModal(false);
+    const hideConfirmModal = () => setShowConfirmModal(false);
 
     useEffect(() => {
         fetchMovies();
@@ -74,6 +86,7 @@ export default function Movies() {
                             key={movie.id}
                             movie={movie}
                             onEditClick={() => handleOnEditClick(movie)}
+                            onDeleteClick={() => handleOnDeleteClick(movie)}
                         />
                     )
                 })}
@@ -84,6 +97,14 @@ export default function Movies() {
                     onPrevClick={handleOnPrevClick}
                 />
             </div>
+
+            <ConfirmModal
+                visible={showConfirmModal}
+                onConfirm={handleOnDeleteConfirm}
+                onCancel={hideConfirmModal}
+                title='Are you sure?'
+                subtitle={`This action will remove this movie '${selectedMovie?.title}' permanently!`}
+            />
 
             <UpdateMovie
                 visible={showUpdateModal}
