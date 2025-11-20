@@ -89,7 +89,12 @@ export default function LatestUploads() {
                 busy={busy}
             />
 
-            
+            <UpdateMovie
+                visible={showUpdateModal}
+                initialState={selectedMovie}
+                onSuccess={handleOnUpdate}
+                onClose={hideUpdateForm}
+            />
         </>
     );
 };
