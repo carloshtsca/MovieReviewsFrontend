@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import MovieListItem from '../MovieListItem';
-import { useNotification } from '../../hooks';
+import { useMovies, useNotification } from '../../hooks';
 import { getMovies, getMovieForUpdate, deleteMovie } from '../../api/movie';
 import NextAndPrevButton from '../NextAndPrevButton';
 import UpdateMovie from '../modals/UpdateMovie';
@@ -18,19 +18,20 @@ export default function Movies() {
     const [selectedMovie, setSelectedMovie] = useState(null);
 
     const { updateNotification } = useNotification();
+    const { fetchMovies, fetchPrevPage, fetchNextPage, movies: newMovies } = useMovies();
 
-    const fetchMovies = async (pageNo) => {
-        const { error, movies } = await getMovies(pageNo, limit);
-        if (error) updateNotification('error', error);
+    // const fetchMovies = async (pageNo) => {
+    //     const { error, movies } = await getMovies(pageNo, limit);
+    //     if (error) updateNotification('error', error);
 
-        if (!movies.length) {
-            currentPageNo = pageNo - 1;
-            return setReachedToEnd(true);
-        };
+    //     if (!movies.length) {
+    //         currentPageNo = pageNo - 1;
+    //         return setReachedToEnd(true);
+    //     };
 
-        setReachedToEnd(false);
-        setMovies([...movies]);
-    };
+    //     setReachedToEnd(false);
+    //     setMovies([...movies]);
+    // };
 
     const handleOnNextClick = () => {
         if (reachedToEnd) return;
@@ -87,7 +88,7 @@ export default function Movies() {
     return (
         <>
             <div className='space-y-3 p-5'>
-                {movies.map(movie => {
+                {newMovies.map(movie => {
                     return (
                         <MovieListItem
                             key={movie.id}
@@ -100,8 +101,8 @@ export default function Movies() {
 
                 <NextAndPrevButton
                     className="mt-5"
-                    onNextClick={handleOnNextClick}
-                    onPrevClick={handleOnPrevClick}
+                    onNextClick={fetchNextPage}
+                    onPrevClick={fetchPrevPage}
                 />
             </div>
 
