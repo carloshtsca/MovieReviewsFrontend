@@ -5,7 +5,7 @@ import MovieListItem from "./MovieListItem";
 export default function LatestUploads() {
     const { fetchLatestUploads, latestUploads } = useMovies();
 
-    const handleAfterDelete = () => fetchLatestUploads();
+    const handleUIUpdate = () => fetchLatestUploads();
 
     useEffect(() => {
         fetchLatestUploads();
@@ -23,7 +23,8 @@ export default function LatestUploads() {
                         return <MovieListItem
                             movie={movie}
                             key={movie.id}
-                            afterDelete={handleAfterDelete}
+                            afterDelete={handleUIUpdate}
+                            afterUpdate={handleUIUpdate}
                         />;
                     })}
                 </div>

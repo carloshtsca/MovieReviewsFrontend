@@ -3,10 +3,13 @@ import ConfirmModal from "./modals/ConfirmModal";
 import { useState } from "react";
 import { deleteMovie } from "../api/movie";
 import { useNotification } from "../hooks";
+import UpdateMovie from "./modals/UpdateMovie";
 
-const MovieListItem = ({ movie, afterDelete }) => {
+const MovieListItem = ({ movie, afterDelete, afterUpdate }) => {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [busy, setBusy] = useState(false);
+    const [selectedMovieId, setSelectedMovieId] = useState(null);
 
     const { updateNotification } = useNotification();
 
@@ -22,20 +25,22 @@ const MovieListItem = ({ movie, afterDelete }) => {
         hideConfirmModal();
     };
 
-    // const handleOnUpdate = (movie) => {
-    //     const updatedMovies = movies.map(m => {
-    //         if (m.id === movie.id) return movie;
-    //         return m
-    //     });
+    const handleOnEditClick = () => {
+        setShowUpdateModal(true);
+        setSelectedMovieId(movie.id);
+    };
 
-    //     setMovies([...updatedMovies]);
-    // };
+    const handleOnUpdate = (movie) => {
+        afterUpdate(movie);
+        setShowUpdateModal(false);
+        setSelectedMovieId(null);
+    };
 
     const displayConfirmModal = () => setShowConfirmModal(true);
     const hideConfirmModal = () => setShowConfirmModal(false);
 
     return <>
-        <MovieCard movie={movie} onDeleteClick={displayConfirmModal} />
+        <MovieCard movie={movie} onDeleteClick={displayConfirmModal} onEditClick={handleOnEditClick} />
 
         <div className='p-0'>
             <ConfirmModal
@@ -46,14 +51,14 @@ const MovieListItem = ({ movie, afterDelete }) => {
                 subtitle={`This action will remove this movie '${movie?.title}' permanently!`}
                 busy={busy}
             />
-        </div>
 
-        {/* <UpdateMovie
+            <UpdateMovie
+                movieId={selectedMovieId}
                 visible={showUpdateModal}
-                initialState={selectedMovie}
                 onSuccess={handleOnUpdate}
-                onClose={hideUpdateForm}
-            /> */}
+                onClose={() => setShowUpdateModal(false)}
+            />
+        </div>
     </>
 };
 

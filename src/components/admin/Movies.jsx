@@ -6,7 +6,7 @@ import NextAndPrevButton from '../NextAndPrevButton';
 export default function Movies() {
     const { fetchMovies, fetchPrevPage, fetchNextPage, movies: newMovies } = useMovies();
 
-    const handleAfterDelete = () => fetchMovies();
+    const handleUIUpdate = () => fetchMovies();
 
     useEffect(() => {
         fetchMovies();
@@ -20,7 +20,8 @@ export default function Movies() {
                         <MovieListItem
                             key={movie.id}
                             movie={movie}
-                            afterDelete={handleAfterDelete}
+                            afterDelete={handleUIUpdate}
+                            afterUpdate={handleUIUpdate}
                         />
                     )
                 })}
