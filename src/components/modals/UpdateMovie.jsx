@@ -4,7 +4,7 @@ import MovieForm from '../admin/MovieForm';
 import { getMovieForUpdate, updateMovie } from '../../api/movie';
 import { useNotification } from '../../hooks';
 
-export default function UpdateMovie({ visible, movieId, onSuccess, onClose }) {
+export default function UpdateMovie({ visible, movieId, onSuccess }) {
     const [busy, setBusy] = useState(false);
     const [ready, setReady] = useState(false);
     const [selectedMovie, setSelectedMovie] = useState(null);
@@ -17,7 +17,6 @@ export default function UpdateMovie({ visible, movieId, onSuccess, onClose }) {
         if (error) return updateNotification('error', error);
         updateNotification('success', message);
         onSuccess(movie);
-        onClose();
     };
 
     const fetchMovieToUpdate = async () => {

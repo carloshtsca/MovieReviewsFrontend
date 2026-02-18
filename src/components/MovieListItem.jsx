@@ -20,9 +20,9 @@ const MovieListItem = ({ movie, afterDelete, afterUpdate }) => {
 
         if (error) return updateNotification('error', error);
 
+        hideConfirmModal();
         updateNotification('success', message);
         afterDelete(movie);
-        hideConfirmModal();
     };
 
     const handleOnEditClick = () => {
@@ -56,7 +56,6 @@ const MovieListItem = ({ movie, afterDelete, afterUpdate }) => {
                 movieId={selectedMovieId}
                 visible={showUpdateModal}
                 onSuccess={handleOnUpdate}
-                onClose={() => setShowUpdateModal(false)}
             />
         </div>
     </>
