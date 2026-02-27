@@ -22,10 +22,13 @@ const MoviesProvider = ({ children }) => {
 
     const fetchMovies = async (pageNo = currentPageNo) => {
         const { error, movies } = await getMovies(pageNo, limit);
-        if (error) updateNotification('error', error);
+        if (error) {
+            updateNotification('error', error)
+            return;
+        };
 
         if (!movies.length) {
-            currentPageNo = pageNo - 1;
+            currentPageNo = Math.max(0, pageNo - 1);
             return setReachedToEnd(true);
         };
 
