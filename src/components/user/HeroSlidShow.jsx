@@ -1,7 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getLatestUploads } from "../../api/movie";
+import { useNotification } from '../../hooks';
 
 export default function HeroSlidShow() {
-    const [slide, setSlide] = useState({  });
+    const [slide, setSlide] = useState({});
+    const [movies, setMovies] = useState([]);
+    const { updateNotification } = useNotification();
+
+    const fetchLatestUploads = async () => {
+        const { error, movies } = await getLatestUploads();
+        if (error) return updateNotification('error', error);
+        setMovies([...movies]);
+        setSlide(movies[0]);
+    };
+
+    useEffect(() => {
+        fetchLatestUploads();
+    }, [])
 
     return (
         <div className='w-full flex'>
