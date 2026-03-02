@@ -1,4 +1,5 @@
 import Container from './Container';
+import HeroSlidShow from './user/HeroSlidShow';
 import NotVerified from './user/NotVerified';
 import TopRatedMovies from './user/TopRatedMovies';
 import TopRatedTVSeries from './user/TopRatedTVSeries';
@@ -11,6 +12,7 @@ export default function Home() {
                 <NotVerified />
 
                 {/* Slider */}
+                <HeroSlidShow />
 
                 {/* Most rated movies */}
                 <TopRatedMovies />
