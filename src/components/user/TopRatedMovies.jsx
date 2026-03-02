@@ -13,14 +13,26 @@ export default function TopRatedMovies() {
         setMovies([...movies]);
     };
 
+    const trimTitle = (text = '') => {
+        if (text.length <= 20) return text;
+        return text.substring(0, 20) + '..';
+    };
+
     useEffect(() => {
         fetchMovies();
     }, []);
 
     return (
         <GridContainer>
-            {movies.map((_, index) => {
-                return <div className='p-5 bg-red-200' key={index}></div>;
+            {movies.map((movie) => {
+                return <div key={movie.id}>
+                    <img
+                        className='aspect-video object-cover'
+                        src={movie.poster}
+                        alt={movie.title}
+                    />
+                    <h1 className='dark:text-white text-primary' title={movie.title}>{trimTitle(movie.title)}</h1>
+                </div>;
             })}
         </GridContainer>
     );
