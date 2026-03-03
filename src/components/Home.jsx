@@ -8,7 +8,7 @@ import TopRatedWebSeries from './user/TopRatedWebSeries';
 export default function Home() {
     return (
         <div className='dark:bg-primary bg-white min-h-screen'>
-            <Container>
+            <Container className='px-2 xl:p-0'>
                 <NotVerified />
 
                 {/* Slider */}
