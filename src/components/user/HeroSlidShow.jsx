@@ -5,14 +5,23 @@ import { useNotification } from '../../hooks';
 
 export default function HeroSlidShow() {
     const [slide, setSlide] = useState({});
-    const [movies, setMovies] = useState([]);
+    const [slides, setSlides] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
     const { updateNotification } = useNotification();
 
     const fetchLatestUploads = async () => {
         const { error, movies } = await getLatestUploads();
         if (error) return updateNotification('error', error);
-        setMovies([...movies]);
+        setSlides([...movies]);
         setSlide(movies[0]);
+    };
+
+    const handleOnNextClick = () => {
+        const nextSlideIndex = currentIndex + 1;
+        if (nextSlideIndex >= slides.length) return;
+        setCurrentIndex(nextSlideIndex);
+        setSlide(slides[nextSlideIndex]);
     };
 
     useEffect(() => {
@@ -23,8 +32,8 @@ export default function HeroSlidShow() {
         <div className='w-full flex'>
             {/* Slide show section */}
             <div className='w-4/5 aspect-video relative'>
-                <img src={slide.poster} alt="" />
-                <SlideShowController />
+                <img className='aspect-video object-cover' src={slide.poster} alt="" />
+                <SlideShowController onNextClick={handleOnNextClick} />
             </div>
 
             {/* Up Next Section */}
