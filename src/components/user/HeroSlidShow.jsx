@@ -29,6 +29,10 @@ export default function HeroSlidShow() {
         slideRef.current.classList.add('slide-in-from-right');
     };
 
+    const handleAnimationEnd = () => {
+        slideRef.current.classList.remove('slide-in-from-right');
+    };
+
     useEffect(() => {
         fetchLatestUploads();
         console.log((1 + 1) % 5)
@@ -39,6 +43,7 @@ export default function HeroSlidShow() {
             {/* Slide show section */}
             <div className='w-4/5 aspect-video relative overflow-hidden'>
                 <img
+                    onAnimationEnd={handleAnimationEnd}
                     ref={slideRef}
                     className='aspect-video object-cover'
                     src={slide.poster}
