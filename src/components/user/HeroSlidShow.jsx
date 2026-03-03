@@ -3,6 +3,8 @@ import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import { getLatestUploads } from "../../api/movie";
 import { useNotification } from '../../hooks';
 
+let count = 0;
+
 export default function HeroSlidShow() {
     const [slide, setSlide] = useState({});
     const [slides, setSlides] = useState([]);
@@ -18,14 +20,16 @@ export default function HeroSlidShow() {
     };
 
     const handleOnNextClick = () => {
-        const nextSlideIndex = currentIndex + 1;
-        if (nextSlideIndex >= slides.length) return;
-        setCurrentIndex(nextSlideIndex);
-        setSlide(slides[nextSlideIndex]);
+        count = (count + 1) % slides.length;
+        console.log(count)
+        // if (nextSlideIndex >= slides.length) return;
+        setSlide(slides[count]);
+        setCurrentIndex(count);
     };
 
     useEffect(() => {
         fetchLatestUploads();
+        console.log((1 + 1) % 5)
     }, [])
 
     return (
