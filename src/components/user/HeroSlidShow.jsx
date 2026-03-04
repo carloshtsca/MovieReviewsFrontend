@@ -22,6 +22,10 @@ export default function HeroSlidShow() {
         setCurrentSlide(movies[0]);
     };
 
+    const startSlideShow = () => {
+        setInterval(handleOnNextClick, 3500);
+    };
+
     const handleOnNextClick = () => {
         setClonedSlide(slides[count]);
         count = (count + 1) % slides.length;
@@ -57,6 +61,10 @@ export default function HeroSlidShow() {
     useEffect(() => {
         fetchLatestUploads();
     }, []);
+
+    useEffect(() => {
+        if (slides.length) startSlideShow();
+    }, [slides.length]);
 
     return (
         <div className='w-full flex'>
