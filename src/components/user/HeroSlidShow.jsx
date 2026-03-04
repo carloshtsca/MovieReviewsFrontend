@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, forwardRef } from "react";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import { getLatestUploads } from "../../api/movie";
 import { useNotification } from '../../hooks';
@@ -25,7 +25,7 @@ export default function HeroSlidShow() {
     };
 
     const startSlideShow = () => {
-        // intervalId = setInterval(handleOnNextClick, 3500);
+        intervalId = setInterval(handleOnNextClick, 3500);
     };
 
     const pauseSlideShow = () => {
@@ -95,29 +95,21 @@ export default function HeroSlidShow() {
             {/* Slide show section */}
             <div className='w-4/5 aspect-video relative overflow-hidden'>
                 {/* current slide */}
-                <div className='w-full cursor-pointer relative'>
-                    <img
-                        ref={slideRef}
-                        className='aspect-video object-cover'
-                        src={currentSlide.poster}
-                        alt=""
-                    />
-
-                    <div className="absolute inset-0 flex flex-col justify-end py-3 bg-gradient-to-t from-white dark:from-primary">
-                        <h1 className='font-semibold text-4xl dark:text-highlight-dark text-highlight'>
-                            {currentSlide.title}
-                        </h1>
-                    </div>
-                </div>
+                <Slide
+                    ref={slideRef}
+                    title={currentSlide.title}
+                    src={currentSlide.poster}
+                />
 
                 {/* cloned slide */}
-                <img
+                <Slide
                     onAnimationEnd={handleAnimationEnd}
                     ref={clonedSlideRef}
                     className='aspect-video object-cover absolute inset-0'
+                    title={currentSlide.title}
                     src={clonedSlide.poster}
-                    alt=""
                 />
+
                 <SlideShowController onNextClick={handleOnNextClick} onPrevClick={handleOnPrevClick} />
             </div>
 
@@ -149,3 +141,21 @@ const SlideShowController = ({ onNextClick, onPrevClick }) => {
         </div>
     );
 };
+
+const Slide = forwardRef((props, ref) => {
+    const { title, src, className = '', ...rest } = props;
+
+    return (
+        <div ref={ref} className={`w-full cursor-pointer ${className}`} {...rest}>
+            {src && <img className='aspect-video object-cover' src={src} alt="" />}
+
+            {title &&
+                <div className="absolute inset-0 flex flex-col justify-end py-3 bg-gradient-to-t from-white dark:from-primary">
+                    <h1 className='font-semibold text-4xl dark:text-highlight-dark text-highlight'>
+                        {title}
+                    </h1>
+                </div>
+            }
+        </div>
+    )
+});
