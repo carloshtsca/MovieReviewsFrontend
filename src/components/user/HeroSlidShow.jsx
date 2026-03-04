@@ -186,7 +186,7 @@ const Slide = forwardRef((props, ref) => {
     const { id, title, src, className = '', ...rest } = props;
 
     return (
-        <Link to={`/movie/${id}`} ref={ref} className={`w-full cursor-pointer ${className}`} {...rest}>
+        <Link to={`/movie/${id}`} ref={ref} className={`w-full cursor-pointer block ${className}`} {...rest}>
             {src && <img className='aspect-video object-cover' src={src} alt="" />}
 
             {title &&
