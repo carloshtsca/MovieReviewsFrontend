@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, forwardRef } from "react";
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import { getLatestUploads } from "../../api/movie";
 import { useNotification } from '../../hooks';
+import { Link } from "react-router-dom";
 
 let count = 0;
 let intervalId;
@@ -122,6 +123,7 @@ export default function HeroSlidShow() {
                     ref={slideRef}
                     title={currentSlide.title}
                     src={currentSlide.poster}
+                    id={currentSlide.id}
                 />
 
                 {/* cloned slide */}
@@ -131,6 +133,7 @@ export default function HeroSlidShow() {
                     className='aspect-video object-cover absolute inset-0'
                     title={currentSlide.title}
                     src={clonedSlide.poster}
+                    id={currentSlide.id}
                 />
 
                 <SlideShowController onNextClick={handleOnNextClick} onPrevClick={handleOnPrevClick} />
@@ -180,10 +183,10 @@ const SlideShowController = ({ onNextClick, onPrevClick }) => {
 };
 
 const Slide = forwardRef((props, ref) => {
-    const { title, src, className = '', ...rest } = props;
+    const { id, title, src, className = '', ...rest } = props;
 
     return (
-        <div ref={ref} className={`w-full cursor-pointer ${className}`} {...rest}>
+        <Link to={`/movie/${id}`} ref={ref} className={`w-full cursor-pointer ${className}`} {...rest}>
             {src && <img className='aspect-video object-cover' src={src} alt="" />}
 
             {title &&
@@ -193,6 +196,6 @@ const Slide = forwardRef((props, ref) => {
                     </h1>
                 </div>
             }
-        </div>
+        </Link>
     )
 });
