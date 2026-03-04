@@ -25,7 +25,7 @@ export default function HeroSlidShow() {
     };
 
     const startSlideShow = () => {
-        intervalId = setInterval(handleOnNextClick, 3500);
+        // intervalId = setInterval(handleOnNextClick, 3500);
     };
 
     const pauseSlideShow = () => {
@@ -94,13 +94,23 @@ export default function HeroSlidShow() {
         <div className='w-full flex'>
             {/* Slide show section */}
             <div className='w-4/5 aspect-video relative overflow-hidden'>
-                <img
-                    // onAnimationEnd={handleAnimationEnd}
-                    ref={slideRef}
-                    className='aspect-video object-cover'
-                    src={currentSlide.poster}
-                    alt=""
-                />
+                {/* current slide */}
+                <div className='w-full cursor-pointer relative'>
+                    <img
+                        ref={slideRef}
+                        className='aspect-video object-cover'
+                        src={currentSlide.poster}
+                        alt=""
+                    />
+
+                    <div className="absolute inset-0 flex flex-col justify-end py-3 bg-gradient-to-t from-white dark:from-primary">
+                        <h1 className='font-semibold text-4xl dark:text-highlight-dark text-highlight'>
+                            {currentSlide.title}
+                        </h1>
+                    </div>
+                </div>
+
+                {/* cloned slide */}
                 <img
                     onAnimationEnd={handleAnimationEnd}
                     ref={clonedSlideRef}

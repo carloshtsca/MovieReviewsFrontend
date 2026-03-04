@@ -14,14 +14,16 @@ export default function Home() {
                 {/* Slider */}
                 <HeroSlidShow />
 
-                {/* Most rated movies */}
-                <TopRatedMovies />
+                <div className="space-y-3 py-8">
+                    {/* Most rated movies */}
+                    <TopRatedMovies />
 
-                {/* Most rated Web series */}
-                <TopRatedWebSeries />
+                    {/* Most rated Web series */}
+                    <TopRatedWebSeries />
 
-                {/* Most rated tv series */}
-                <TopRatedTVSeries />
+                    {/* Most rated tv series */}
+                    <TopRatedTVSeries />
+                </div>
             </Container>
         </div>
     );
