@@ -14,12 +14,20 @@ export default function SingleMovie() {
     const fetchMovie = async () => {
         const { error, movie } = await getSingleMovie(movieId);
         if (error) return updateNotification('error', error);
+
+        setReady(true);
         setMovie(movie);
     };
 
     useEffect(() => {
         if (movieId) fetchMovie();
-    }, [movieId])
+    }, [movieId]);
+
+    if (!ready) return <div className="h-screen flex justify-center items-center dark:bg-primary bg-white">
+        <div className="text-light-subtle dark:text-dark-subtle animate-pulse">
+            Please wait
+        </div>
+    </div>
 
     return (
         <div>
