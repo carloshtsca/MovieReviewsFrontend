@@ -42,10 +42,10 @@ export default function SingleMovie() {
         </div>
     );
     console.log(movie)
-    const { id, trailer, poster, title, storyLine, language, releaseDate, director, reviews = {}, writers, cast = [] } = movie;
+    const { id, trailer, poster, title, storyLine, language, releaseDate, director, type, reviews = {}, writers = [], cast = [], genres = [] } = movie;
 
     return (
-        <div className='dark:bg-primary bg-white min-h-screen'>
+        <div className='dark:bg-primary bg-white min-h-screen pb-10'>
             <Container>
                 <video poster={poster} controls src={trailer}></video>
 
@@ -136,6 +136,34 @@ export default function SingleMovie() {
                         </p>
                         <p className='text-highlight dark:text-highlight-dark'>
                             {convertDate(releaseDate)}
+                        </p>
+                    </div>
+
+                    {/* Cast */}
+                    <div className="flex">
+                        <p className='text-light-subtle dark:text-dark-subtle font-semibold mr-2'>
+                            Genres:
+                        </p>
+
+                        <div className="flex items-center space-x-1">
+                            {genres.map((g, i) => {
+                                return (
+                                    <p key={g.id} className='text-highlight dark:text-highlight-dark hover:underline cursor-pointer' >
+                                        {g}
+                                        {i !== genres.length - 1 ? <span>,</span> : <span>.</span>}
+                                    </p>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Type */}
+                    <div className="flex space-x-2">
+                        <p className='text-light-subtle dark:text-dark-subtle font-semibold'>
+                            Type:
+                        </p>
+                        <p className='text-highlight dark:text-highlight-dark'>
+                            {type}
                         </p>
                     </div>
 
