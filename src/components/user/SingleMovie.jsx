@@ -10,6 +10,10 @@ const convertReviewCount = (count) => {
     return parseFloat(count / 1000).toFixed(2) + 'K';
 };
 
+const convertDate = (date = '') => {
+    return date.split("T")[0];
+};
+
 export default function SingleMovie() {
     const { movieId } = useParams();
 
@@ -37,8 +41,8 @@ export default function SingleMovie() {
             </div>
         </div>
     );
-
-    const { id, trailer, poster, title, storyLine, director, reviews = {}, writers } = movie;
+    console.log(movie)
+    const { id, trailer, poster, title, storyLine, language, releaseDate, director, reviews = {}, writers, cast = [] } = movie;
 
     return (
         <div className='dark:bg-primary bg-white min-h-screen'>
@@ -89,16 +93,54 @@ export default function SingleMovie() {
 
                         <div className="flex items-center space-x-1">
                             {writers.map((w, i) => {
-                                return <p key={i} className='text-highlight dark:text-highlight-dark hover:underline cursor-pointer'>
-                                    {w.name} 
-                                    {i !== writers.length-1 && <span>,</span>}
+                                return <p key={w.id} className='text-highlight dark:text-highlight-dark hover:underline cursor-pointer'>
+                                    {w.name}
+                                    {i !== writers.length - 1 && <span>,</span>}
                                 </p>
                             })}
                         </div>
                     </div>
-                </div>
 
-            </Container>
-        </div>
+                    {/* Cast */}
+                    <div className="flex">
+                        <p className='text-light-subtle dark:text-dark-subtle font-semibold mr-2'>
+                            Cast:
+                        </p>
+
+                        <div className="flex items-center space-x-1">
+                            {cast.map((c, i) => {
+                                return c.leadActor ? (
+                                    <p key={c.profile.id} className='text-highlight dark:text-highlight-dark hover:underline cursor-pointer' >
+                                        {c.profile.name}
+                                        {i !== cast.length - 1 && <span>,</span>}
+                                    </p>
+                                ) : null;
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Language */}
+                    <div className="flex space-x-2">
+                        <p className='text-light-subtle dark:text-dark-subtle font-semibold'>
+                            Language:
+                        </p>
+                        <p className='text-highlight dark:text-highlight-dark'>
+                            {language}
+                        </p>
+                    </div>
+
+                    {/* Release */}
+                    <div className="flex space-x-2">
+                        <p className='text-light-subtle dark:text-dark-subtle font-semibold'>
+                            Release Date:
+                        </p>
+                        <p className='text-highlight dark:text-highlight-dark'>
+                            {convertDate(releaseDate)}
+                        </p>
+                    </div>
+
+                </div>
+            </Container >
+        </div >
     );
 };
