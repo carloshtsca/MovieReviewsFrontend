@@ -38,19 +38,20 @@ export default function SingleMovie() {
         </div>
     );
 
-    const { id, trailer, poster, title, reviews = {} } = movie;
+    const { id, trailer, poster, title, storyLine, director, reviews = {}, writers } = movie;
 
     return (
-        <div className='dark:bg-primary bg-white'>
+        <div className='dark:bg-primary bg-white min-h-screen'>
             <Container>
                 <video poster={poster} controls src={trailer}></video>
+
                 <div className='flex justify-between items-center'>
                     <h1 className='text-4xl text-highlight dark:text-highlight-dark font-semibold py-3'>
                         {title}
                     </h1>
                     <div className='flex flex-col items-end'>
                         <RatingStar rating={reviews.ratingAvg} />
-                        
+
                         <Link
                             className='text-highlight dark:text-highlight-dark hover:underline'
                             to={`/movie/reviews/${id}`}
@@ -63,6 +64,40 @@ export default function SingleMovie() {
                         </button>
                     </div>
                 </div>
+
+                <div className='space-y-3'>
+                    {/* Storyline */}
+                    <p className='text-light-subtle dark:text-dark-subtle'>
+                        {storyLine}
+                    </p>
+
+                    {/* Director */}
+                    <div className="flex space-x-2">
+                        <p className='text-light-subtle dark:text-dark-subtle font-semibold'>
+                            Director:
+                        </p>
+                        <p className='text-highlight dark:text-highlight-dark hover:underline cursor-pointer'>
+                            {director.name}
+                        </p>
+                    </div>
+
+                    {/* Writers */}
+                    <div className="flex">
+                        <p className='text-light-subtle dark:text-dark-subtle font-semibold mr-2'>
+                            Writers:
+                        </p>
+
+                        <div className="flex items-center space-x-1">
+                            {writers.map((w, i) => {
+                                return <p key={i} className='text-highlight dark:text-highlight-dark hover:underline cursor-pointer'>
+                                    {w.name} 
+                                    {i !== writers.length-1 && <span>,</span>}
+                                </p>
+                            })}
+                        </div>
+                    </div>
+                </div>
+
             </Container>
         </div>
     );
