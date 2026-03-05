@@ -5,6 +5,11 @@ import { useNotification } from "../../hooks";
 import Container from "../Container";
 import RatingStar from "../RatingStar";
 
+const convertReviewCount = (count) => {
+    if (count <= 999) return count;
+    return parseFloat(count / 1000).toFixed(2) + 'K';
+};
+
 export default function SingleMovie() {
     const { movieId } = useParams();
 
@@ -43,13 +48,13 @@ export default function SingleMovie() {
                     <h1 className='text-4xl text-highlight dark:text-highlight-dark font-semibold py-3'>
                         {title}
                     </h1>
-                    <div className=''>
+                    <div className='flex flex-col items-end'>
                         <RatingStar rating={reviews.ratingAvg} />
                         <Link
                             className='text-highlight dark:text-highlight-dark hover:underline'
                             to={`/movie/reviews/${id}`}
                         >
-                            {reviews.reviewCount} Reviews
+                            {convertReviewCount(reviews.reviewCount)} Reviews
                         </Link>
                     </div>
                 </div>
