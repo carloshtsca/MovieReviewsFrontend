@@ -1,4 +1,3 @@
-import { AiFillStar } from 'react-icons/ai';
 import GridContainer from "../GridContainer";
 import { Link } from 'react-router-dom';
 import RatingStar from '../RatingStar';

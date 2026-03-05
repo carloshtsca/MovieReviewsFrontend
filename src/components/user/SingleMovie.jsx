@@ -50,12 +50,17 @@ export default function SingleMovie() {
                     </h1>
                     <div className='flex flex-col items-end'>
                         <RatingStar rating={reviews.ratingAvg} />
+                        
                         <Link
                             className='text-highlight dark:text-highlight-dark hover:underline'
                             to={`/movie/reviews/${id}`}
                         >
                             {convertReviewCount(reviews.reviewCount)} Reviews
                         </Link>
+
+                        <button className='text-highlight dark:text-highlight-dark hover:underline' type='button'>
+                            Rate the movie
+                        </button>
                     </div>
                 </div>
             </Container>
