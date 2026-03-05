@@ -3,6 +3,7 @@ import { getSingleMovie } from "../../api/movie";
 import { Link, useParams } from "react-router-dom";
 import { useNotification } from "../../hooks";
 import Container from "../Container";
+import RatingStar from "../RatingStar";
 
 export default function SingleMovie() {
     const { movieId } = useParams();
@@ -43,6 +44,7 @@ export default function SingleMovie() {
                         {title}
                     </h1>
                     <div className=''>
+                        <RatingStar rating={reviews.ratingAvg} />
                         <Link
                             className='text-highlight dark:text-highlight-dark hover:underline'
                             to={`/movie/reviews/${id}`}
