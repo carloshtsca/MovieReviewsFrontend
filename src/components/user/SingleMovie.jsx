@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getSingleMovie } from "../../api/movie";
-import { Link, useParams } from "react-router-dom";
-import { useNotification } from "../../hooks";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useAuth, useNotification } from "../../hooks";
 import Container from "../Container";
 import RatingStar from "../RatingStar";
 import RelatedMovies from "../RelatedMovies";
@@ -17,11 +17,13 @@ const convertDate = (date = '') => {
 
 export default function SingleMovie() {
     const { movieId } = useParams();
+    const navigate = useNavigate();
 
     const [ready, setReady] = useState(false);
     const [movie, setMovie] = useState({});
 
     const { updateNotification } = useNotification();
+    const { isLoggedIn } = useAuth();
 
     const fetchMovie = async () => {
         const { error, movie } = await getSingleMovie(movieId);
@@ -29,6 +31,10 @@ export default function SingleMovie() {
 
         setReady(true);
         setMovie(movie);
+    };
+
+    const handleOnRateMovie = () => {
+        if (!isLoggedIn) return navigate('/auth/signin');
     };
 
     useEffect(() => {
@@ -64,7 +70,11 @@ export default function SingleMovie() {
                             {convertReviewCount(reviews.reviewCount)} Reviews
                         </Link>
 
-                        <button className='text-highlight dark:text-highlight-dark hover:underline' type='button'>
+                        <button
+                            className='text-highlight dark:text-highlight-dark hover:underline'
+                            type='button'
+                            onClick={handleOnRateMovie}
+                        >
                             Rate the movie
                         </button>
                     </div>
