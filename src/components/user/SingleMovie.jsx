@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useNotification } from "../../hooks";
 import Container from "../Container";
 import RatingStar from "../RatingStar";
+import RelatedMovies from "../RelatedMovies";
 
 const convertReviewCount = (count) => {
     if (count <= 999) return count;
@@ -194,6 +195,10 @@ export default function SingleMovie() {
                                 )
                             })}
                         </div>
+                    </div>
+
+                    <div className="mt-3">
+                        <RelatedMovies movieId={movieId} />
                     </div>
 
                 </div>
