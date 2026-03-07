@@ -5,6 +5,7 @@ import { useAuth, useNotification } from "../../hooks";
 import Container from "../Container";
 import RatingStar from "../RatingStar";
 import RelatedMovies from "../RelatedMovies";
+import AddRatingModal from "../modals/AddRatingModal";
 
 const convertReviewCount = (count) => {
     if (count <= 999) return count;
@@ -213,6 +214,8 @@ export default function SingleMovie() {
 
                 </div>
             </Container >
+
+            <AddRatingModal />
         </div >
     );
 };
