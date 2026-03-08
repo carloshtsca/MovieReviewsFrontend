@@ -9,7 +9,8 @@ export default function AddRatingModal({ }) {
     const [selectedRatings, setSelectedRatings] = useState([]);
 
     const handleMouseEnter = (index) => {
-        console.log(index);
+        const ratings = new Array(index + 1).fill(index);
+        setSelectedRatings([...ratings]);
     };
 
     return (
