@@ -23,8 +23,11 @@ export default function SingleMovie() {
     const [ready, setReady] = useState(false);
     const [movie, setMovie] = useState({});
 
+    const [showRatingModal, setShowRatingModal] = useState(false);
+
     const { updateNotification } = useNotification();
-    const { isLoggedIn } = useAuth();
+    const { authInfo } = useAuth();
+    const { isLoggedIn } = authInfo;
 
     const fetchMovie = async () => {
         const { error, movie } = await getSingleMovie(movieId);
@@ -36,7 +39,10 @@ export default function SingleMovie() {
 
     const handleOnRateMovie = () => {
         if (!isLoggedIn) return navigate('/auth/signin');
+        setShowRatingModal(true);
     };
+
+    const hideRatingModal = () => setShowRatingModal(false);
 
     useEffect(() => {
         if (movieId) fetchMovie();
@@ -215,7 +221,7 @@ export default function SingleMovie() {
                 </div>
             </Container >
 
-            <AddRatingModal />
+            <AddRatingModal visible={showRatingModal} onClose={hideRatingModal} />
         </div >
     );
 };
