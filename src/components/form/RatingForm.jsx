@@ -21,7 +21,7 @@ export default function RatingForm({ busy, onSubmit }) {
         if (!selectedRatings.length) return;
 
         const data = {
-            ratings: selectedRatings.length,
+            rating: selectedRatings.length,
             content
         }
 
