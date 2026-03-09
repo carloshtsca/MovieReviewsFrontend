@@ -44,6 +44,10 @@ export default function SingleMovie() {
 
     const hideRatingModal = () => setShowRatingModal(false);
 
+    const handleOnRatingSuccess = (reviews) => {
+        setMovie({ ...movie, reviews: { ...reviews } });
+    };
+
     useEffect(() => {
         if (movieId) fetchMovie();
     }, [movieId]);
@@ -221,7 +225,7 @@ export default function SingleMovie() {
                 </div>
             </Container >
 
-            <AddRatingModal visible={showRatingModal} onClose={hideRatingModal} />
+            <AddRatingModal visible={showRatingModal} onClose={hideRatingModal} onSuccess={handleOnRatingSuccess} />
         </div >
     );
 };

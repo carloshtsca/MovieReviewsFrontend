@@ -4,14 +4,15 @@ import RatingForm from '../form/RatingForm';
 import ModalContainer from '../modals/ModalContainer';
 import { useNotification } from '../../hooks';
 
-export default function AddRatingModal({ visible, onClose }) {
+export default function AddRatingModal({ visible, onSuccess, onClose }) {
     const { movieId } = useParams();
     const { updateNotification } = useNotification();
 
     const handleSubmit = async (data) => {
-        const { error, message } = await addReview(movieId, data);
+        const { error, message, reviews } = await addReview(movieId, data);
         if (error) return updateNotification('error', error);
         updateNotification('success', message);
+        onSuccess(reviews);
         onClose();
     };
 
